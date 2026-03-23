@@ -19,6 +19,41 @@ namespace WpfBubbelvrienden
         public MainWindow()
         {
             InitializeComponent();
+            grdStart.Visibility = Visibility.Visible;
+            grdLeden.Visibility = Visibility.Hidden;
+            grdTrainingen.Visibility = Visibility.Hidden;
+            grdSessies.Visibility = Visibility.Hidden;
+        }
+
+        private void resetgrids()
+        {
+            grdStart.Visibility = Visibility.Hidden;
+            grdLeden.Visibility = Visibility.Hidden;
+            grdTrainingen.Visibility = Visibility.Hidden;
+            grdSessies.Visibility = Visibility.Hidden;
+        }
+        private void btnMenuStart_Click(object sender, RoutedEventArgs e)
+        {
+            resetgrids();
+            grdStart.Visibility = Visibility.Visible;
+        }
+
+        private void btnMenuLeden_Click(object sender, RoutedEventArgs e)
+        {
+            resetgrids();
+            grdLeden.Visibility = Visibility.Visible;
+        }
+
+        private void btnMenuTrainingen_Click(object sender, RoutedEventArgs e)
+        {
+            resetgrids();
+            grdTrainingen.Visibility = Visibility.Visible;
+        }
+
+        private void btnMenuSessies_Click(object sender, RoutedEventArgs e)
+        {
+            resetgrids();
+            grdSessies.Visibility = Visibility.Visible;
         }
     }
 }

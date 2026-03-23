@@ -7,6 +7,24 @@
         mc:Ignorable="d"
         Title="Bubbelvrienden" Height="450" Width="800">
     <Grid>
-
+        <Menu x:Name="mnuMainMenu">
+            <Button x:Name="btnMenuStart" Content="Start" Click="btnMenuStart_Click"/>
+            <Button x:Name="btnMenuLeden" Content="Leden" Click="btnMenuLeden_Click"/>
+            <Button x:Name="btnMenuTrainingen" Content="Trainingen" Click="btnMenuTrainingen_Click"/>
+            <Button x:Name="btnMenuSessies" Content="Sessies" Click="btnMenuSessies_Click"/>
+        </Menu>
+        <Rectangle x:Name="rctMainContent" Stroke="Black" Margin="0,25,0,0"/>
+        <Grid x:Name="grdStart">
+            <Image x:Name="imgStart" Source="/img/Startpagina_duiken.jpg" Margin="0,25,0,0" Stretch="UniformToFill"/>
+        </Grid>
+        <Grid x:Name="grdLeden">
+            <Label x:Name="lblLeden" Content="PLACEHOLDER LEDEN" Margin="0,25,0,0"/>
+        </Grid>
+        <Grid x:Name="grdTrainingen">
+            <Label x:Name="lblTrainingen" Content="PLACEHOLDER TRAININGEN" Margin="0,25,0,0"/>
+        </Grid>
+        <Grid x:Name="grdSessies">
+            <Label x:Name="lblSessies" Content="PLACEHOLDER SESSIES" Margin="0,25,0,0"/>
+        </Grid>
     </Grid>
 </Window>

@@ -8,4 +8,14 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="img\Startpagina_duiken.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="img\Startpagina_duiken.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
