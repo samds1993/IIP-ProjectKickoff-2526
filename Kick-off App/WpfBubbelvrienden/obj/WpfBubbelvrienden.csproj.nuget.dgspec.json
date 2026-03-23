@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\woutk\\OneDrive - ODISEE\\Introductie in programmeren\\IIP-ProjectKickoff-2526\\Kick-off App\\WpfBubbelvrienden\\WpfBubbelvrienden.csproj": {}
+    "C:\\Users\\samds\\OneDrive\\Desktop\\Odisee\\IIP-ProjectKickoff-2526\\Kick-off App\\WpfBubbelvrienden\\WpfBubbelvrienden.csproj": {}
   },
   "projects": {
-    "C:\\Users\\woutk\\OneDrive - ODISEE\\Introductie in programmeren\\IIP-ProjectKickoff-2526\\Kick-off App\\WpfBubbelvrienden\\WpfBubbelvrienden.csproj": {
+    "C:\\Users\\samds\\OneDrive\\Desktop\\Odisee\\IIP-ProjectKickoff-2526\\Kick-off App\\WpfBubbelvrienden\\WpfBubbelvrienden.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\woutk\\OneDrive - ODISEE\\Introductie in programmeren\\IIP-ProjectKickoff-2526\\Kick-off App\\WpfBubbelvrienden\\WpfBubbelvrienden.csproj",
+        "projectUniqueName": "C:\\Users\\samds\\OneDrive\\Desktop\\Odisee\\IIP-ProjectKickoff-2526\\Kick-off App\\WpfBubbelvrienden\\WpfBubbelvrienden.csproj",
         "projectName": "WpfBubbelvrienden",
-        "projectPath": "C:\\Users\\woutk\\OneDrive - ODISEE\\Introductie in programmeren\\IIP-ProjectKickoff-2526\\Kick-off App\\WpfBubbelvrienden\\WpfBubbelvrienden.csproj",
-        "packagesPath": "C:\\Users\\woutk\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\woutk\\OneDrive - ODISEE\\Introductie in programmeren\\IIP-ProjectKickoff-2526\\Kick-off App\\WpfBubbelvrienden\\obj\\",
+        "projectPath": "C:\\Users\\samds\\OneDrive\\Desktop\\Odisee\\IIP-ProjectKickoff-2526\\Kick-off App\\WpfBubbelvrienden\\WpfBubbelvrienden.csproj",
+        "packagesPath": "C:\\Users\\samds\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\samds\\OneDrive\\Desktop\\Odisee\\IIP-ProjectKickoff-2526\\Kick-off App\\WpfBubbelvrienden\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\woutk\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\samds\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

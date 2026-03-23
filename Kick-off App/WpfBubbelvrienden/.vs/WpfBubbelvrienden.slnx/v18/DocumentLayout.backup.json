@@ -1,9 +1,13 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\woutk\\OneDrive - ODISEE\\Introductie in programmeren\\IIP-ProjectKickoff-2526\\Kick-off App\\WpfBubbelvrienden\\",
+  "WorkspaceRootPath": "C:\\Users\\samds\\OneDrive\\Desktop\\Odisee\\IIP-ProjectKickoff-2526\\Kick-off App\\WpfBubbelvrienden\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1B381EF2-3F3C-760C-8E25-0A6A46EF3B1A}|WpfBubbelvrienden.csproj|c:\\users\\woutk\\onedrive - odisee\\introductie in programmeren\\iip-projectkickoff-2526\\kick-off app\\wpfbubbelvrienden\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1B381EF2-3F3C-760C-8E25-0A6A46EF3B1A}|WpfBubbelvrienden.csproj|c:\\users\\samds\\onedrive\\desktop\\odisee\\iip-projectkickoff-2526\\kick-off app\\wpfbubbelvrienden\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{1B381EF2-3F3C-760C-8E25-0A6A46EF3B1A}|WpfBubbelvrienden.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B381EF2-3F3C-760C-8E25-0A6A46EF3B1A}|WpfBubbelvrienden.csproj|c:\\users\\samds\\onedrive\\desktop\\odisee\\iip-projectkickoff-2526\\kick-off app\\wpfbubbelvrienden\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1B381EF2-3F3C-760C-8E25-0A6A46EF3B1A}|WpfBubbelvrienden.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -19,15 +23,26 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\samds\\OneDrive\\Desktop\\Odisee\\IIP-ProjectKickoff-2526\\Kick-off App\\WpfBubbelvrienden\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "MainWindow.xaml",
+              "ToolTip": "C:\\Users\\samds\\OneDrive\\Desktop\\Odisee\\IIP-ProjectKickoff-2526\\Kick-off App\\WpfBubbelvrienden\\MainWindow.xaml",
+              "RelativeToolTip": "MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-03-23T21:12:45.431Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\woutk\\OneDrive - ODISEE\\Introductie in programmeren\\IIP-ProjectKickoff-2526\\Kick-off App\\WpfBubbelvrienden\\MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\samds\\OneDrive\\Desktop\\Odisee\\IIP-ProjectKickoff-2526\\Kick-off App\\WpfBubbelvrienden\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "MainWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\woutk\\OneDrive - ODISEE\\Introductie in programmeren\\IIP-ProjectKickoff-2526\\Kick-off App\\WpfBubbelvrienden\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\samds\\OneDrive\\Desktop\\Odisee\\IIP-ProjectKickoff-2526\\Kick-off App\\WpfBubbelvrienden\\MainWindow.xaml.cs",
               "RelativeToolTip": "MainWindow.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwBIAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-23T20:22:06.819Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-23T20:22:06.819Z"
             }
           ]
         }
