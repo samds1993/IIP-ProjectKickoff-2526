@@ -1,0 +1,18 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.cache
+*.db
+*.opendb
+
+# WPF Designer metadata (auto-generated)
+*.v10.bin
+*.v2
+*.vsdix
+*DocumentLayout.json
+*.json.layout
+
+# Build output
+bin/
+obj/
