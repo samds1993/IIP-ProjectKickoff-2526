@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WpfBubbelvrienden")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4040f891eb1e134d94019c279666bec022ae99d1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c8ad3f4ae87995418b01012111aa9804b466a01c")]
 [assembly: System.Reflection.AssemblyProductAttribute("WpfBubbelvrienden")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WpfBubbelvrienden")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
