@@ -40,6 +40,8 @@
                 <ComboBoxItem Content="★★★★★"/>
             </ComboBox>
             <Button x:Name="btnRegistratie" Content="Registreren" HorizontalAlignment="Left" Margin="380,351,0,0" VerticalAlignment="Top" Height="35" Width="260" FontSize="22" Click="btnRegistratie_Click"/>
+            <TextBlock x:Name="txtTest" HorizontalAlignment="Left" Margin="645,122,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="264" Width="145"/>
+            <Button x:Name="btnResetTest" Content="Reset lijst" HorizontalAlignment="Left" Margin="662,363,0,0" VerticalAlignment="Top" Width="107" Click="btnResetTest_Click"/>
         </Grid>
         <Grid x:Name="grdTrainingen" d:IsHidden="True">
             <Label x:Name="lblTrainingen" Content="PLACEHOLDER TRAININGEN" Margin="0,25,0,0"/>

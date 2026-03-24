@@ -16,6 +16,9 @@ namespace WpfBubbelvrienden
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<string> ledenLijst = new List<string>();
+        int registratieCounter = 0;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -23,6 +26,7 @@ namespace WpfBubbelvrienden
             grdLeden.Visibility = Visibility.Hidden;
             grdTrainingen.Visibility = Visibility.Hidden;
             grdSessies.Visibility = Visibility.Hidden;
+
         }
 
         private void resetgrids()
@@ -58,7 +62,34 @@ namespace WpfBubbelvrienden
 
         private void btnRegistratie_Click(object sender, RoutedEventArgs e)
         {
+            registratieCounter++;
 
+            string nieuwLid = $@"
+ID: {registratieCounter.ToString("D8")}
+Naam: {txbNaam.Text}
+Voornaam: {txbVoornaam.Text}
+Rijksregisternummer: {txbLidRRN.Text}
+Adres: {txbLidAdres.Text}
+Telefoonnummer: {txbLidGSM.Text}
+Email-adres: {txbLidEmail.Text}
+Certificaat: {cbxCertificaat.Text}";
+
+
+            ledenLijst.Add(nieuwLid);
+
+            txtTest.Text = ledenLijst[0];
+            txbNaam.Clear();
+            txbVoornaam.Clear();
+            txbLidRRN.Clear();
+            txbLidAdres.Clear();
+            txbLidEmail.Clear();    
+            txbLidGSM.Clear();
+            cbxCertificaat.SelectedIndex = -1;
+        }
+
+        private void btnResetTest_Click(object sender, RoutedEventArgs e)
+        {
+            ledenLijst.Clear();
         }
     }
 }
