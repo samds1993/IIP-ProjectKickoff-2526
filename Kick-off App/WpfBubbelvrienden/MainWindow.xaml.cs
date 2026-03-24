@@ -55,5 +55,10 @@ namespace WpfBubbelvrienden
             resetgrids();
             grdSessies.Visibility = Visibility.Visible;
         }
+
+        private void btnRegistratie_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

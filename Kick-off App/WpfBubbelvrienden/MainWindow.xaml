@@ -14,16 +14,37 @@
             <Button x:Name="btnMenuSessies" Content="Sessies" Click="btnMenuSessies_Click"/>
         </Menu>
         <Rectangle x:Name="rctMainContent" Stroke="Black" Margin="0,25,0,0"/>
-        <Grid x:Name="grdStart">
+        <Grid x:Name="grdStart" d:IsHidden="True">
             <Image x:Name="imgStart" Source="/img/Startpagina_duiken.jpg" Margin="0,25,0,0" Stretch="UniformToFill"/>
         </Grid>
         <Grid x:Name="grdLeden">
-            <Label x:Name="lblLeden" Content="PLACEHOLDER LEDEN" Margin="0,25,0,0"/>
+            <Label x:Name="lblLeden" Content="Registratie leden" Margin="10,35,600,355" FontSize="24"/>
+            <Label x:Name="lblLidNaam" Content="Naam" HorizontalAlignment="Left" Margin="57,88,0,0" VerticalAlignment="Top" FontSize="18" />
+            <TextBox x:Name="txbNaam" TextWrapping="Wrap" Text="" Margin="60,122,480,278"/>
+            <Label x:Name="lblLidVoornaam" Content="Voornaam" HorizontalAlignment="Left" Margin="380,88,0,0" VerticalAlignment="Top" FontSize="18" />
+            <TextBox x:Name="txbVoornaam" TextWrapping="Wrap" Text="" Margin="380,122,160,278"/>
+            <Label x:Name="lblLidRRN" Content="Rijksregisternummer" HorizontalAlignment="Left" Margin="57,160,0,0" VerticalAlignment="Top" FontSize="18" />
+            <TextBox x:Name="txbLidRRN" TextWrapping="Wrap" Text="" Margin="59,194,481,206"/>
+            <Label x:Name="lblLidAdres" Content="Adres" HorizontalAlignment="Left" Margin="380,160,0,0" VerticalAlignment="Top" FontSize="18" />
+            <TextBox x:Name="txbLidAdres" TextWrapping="Wrap" Text="" Margin="380,194,160,206"/>
+            <Label x:Name="lblLidGSM" Content="Telefoonnummer" HorizontalAlignment="Left" Margin="60,234,0,0" VerticalAlignment="Top" FontSize="18" />
+            <TextBox x:Name="txbLidGSM" TextWrapping="Wrap" Text="" Margin="59,273,481,127"/>
+            <Label x:Name="lblLidEmail" Content="Email-adres" HorizontalAlignment="Left" Margin="380,234,0,0" VerticalAlignment="Top" FontSize="18" />
+            <TextBox x:Name="txbLidEmail" TextWrapping="Wrap" Text="" Margin="380,273,160,127"/>
+            <Label x:Name="lblLidCertificaat" Content="Certificaat" HorizontalAlignment="Left" Margin="60,312,0,0" VerticalAlignment="Top" FontSize="18" />
+            <ComboBox x:Name="cbxCertificaat" HorizontalAlignment="Left" Margin="60,351,0,0" VerticalAlignment="Top" Width="260" Height="35">
+                <ComboBoxItem Content="★"/>
+                <ComboBoxItem Content="★★"/>
+                <ComboBoxItem Content="★★★"/>
+                <ComboBoxItem Content="★★★★"/>
+                <ComboBoxItem Content="★★★★★"/>
+            </ComboBox>
+            <Button x:Name="btnRegistratie" Content="Registreren" HorizontalAlignment="Left" Margin="380,351,0,0" VerticalAlignment="Top" Height="35" Width="260" FontSize="22" Click="btnRegistratie_Click"/>
         </Grid>
-        <Grid x:Name="grdTrainingen">
+        <Grid x:Name="grdTrainingen" d:IsHidden="True">
             <Label x:Name="lblTrainingen" Content="PLACEHOLDER TRAININGEN" Margin="0,25,0,0"/>
         </Grid>
-        <Grid x:Name="grdSessies">
+        <Grid x:Name="grdSessies" d:IsHidden="True">
             <Label x:Name="lblSessies" Content="PLACEHOLDER SESSIES" Margin="0,25,0,0"/>
         </Grid>
     </Grid>
