@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -22,12 +24,17 @@ namespace WpfBubbelvrienden
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
             grdStart.Visibility = Visibility.Visible;
             grdLeden.Visibility = Visibility.Hidden;
             grdTrainingen.Visibility = Visibility.Hidden;
             grdSessies.Visibility = Visibility.Hidden;
 
         }
+
+        public string LidEmail { get; set; }
+        public string LidGSM { get; set; }
+
 
         private void resetgrids()
         {
@@ -60,6 +67,8 @@ namespace WpfBubbelvrienden
             grdSessies.Visibility = Visibility.Visible;
         }
 
+        // leden registratie code
+        // opslaan input in multiline string
         private void btnRegistratie_Click(object sender, RoutedEventArgs e)
         {
             registratieCounter++;
@@ -70,8 +79,8 @@ Naam: {txbNaam.Text}
 Voornaam: {txbVoornaam.Text}
 Rijksregisternummer: {txbLidRRN.Text}
 Adres: {txbLidAdres.Text}
-Telefoonnummer: {txbLidGSM.Text}
-Email-adres: {txbLidEmail.Text}
+Telefoonnummer: {LidGSM}
+Email-adres: {LidEmail}
 Certificaat: {cbxCertificaat.Text}";
 
 
@@ -92,4 +101,38 @@ Certificaat: {cbxCertificaat.Text}";
             ledenLijst.Clear();
         }
     }
+
+    // Validatie input bij email/gsmnummers
+
+    public class EmailValidationRule : ValidationRule
+    {
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            string email = value as string;
+            
+            string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            if (Regex.IsMatch(email, pattern))
+                return ValidationResult.ValidResult;
+            
+            return new ValidationResult(false, "Ongeldig e-mailadres.");
+        }
+    }
+
+    public class GSMValidationRule : ValidationRule
+    {
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            string gsm = value as string;
+
+            string pattern = @"^(?:\+324\d{8}|04\d{8})$";
+
+            if (Regex.IsMatch(gsm, pattern))
+                return ValidationResult.ValidResult;
+
+            return new ValidationResult(false, "Ongeldig GSM-nummer.");
+        }
+    }
+
+
+
 }
