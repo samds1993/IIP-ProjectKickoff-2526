@@ -18,7 +18,7 @@ namespace WpfBubbelvrienden
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<string> ledenLijst = new List<string>();
+        List<Lid> ledenLijst = new();
         int registratieCounter = 0;
 
         public MainWindow()
@@ -32,8 +32,8 @@ namespace WpfBubbelvrienden
 
         }
 
-        public string LidEmail { get; set; }
-        public string LidGSM { get; set; }
+        public required string LidEmail { get; set; }
+        public required string LidGSM { get; set; }
 
 
         private void resetgrids()
@@ -68,25 +68,54 @@ namespace WpfBubbelvrienden
         }
 
         // leden registratie code
-        // opslaan input in multiline string
+        // opslaan input met gebruik van een class
+        public class Lid
+        {
+            public required string ID { get; set; }
+            public required string Naam { get; set; }
+            public required string Voornaam { get; set; }
+            public required string Rijksregisternummer { get; set; }
+            public required string Adres { get; set; }
+            public required string Telefoonnummer { get; set; }
+            public required string Email { get; set; }
+            public required string Certificaat { get; set; }
+
+            public override string ToString()
+            {
+                return $@"ID: {ID}
+Naam: {Naam}
+Voornaam: {Voornaam}
+Rijksregisternummer: {Rijksregisternummer}
+Adres: {Adres}
+Telefoonnummer: {Telefoonnummer}
+Email-adres: {Email}
+Certificaat: {Certificaat}";
+            }
+        }
+
+
+
         private void btnRegistratie_Click(object sender, RoutedEventArgs e)
         {
             registratieCounter++;
 
-            string nieuwLid = $@"
-ID: {registratieCounter.ToString("D8")}
-Naam: {txbNaam.Text}
-Voornaam: {txbVoornaam.Text}
-Rijksregisternummer: {txbLidRRN.Text}
-Adres: {txbLidAdres.Text}
-Telefoonnummer: {LidGSM}
-Email-adres: {LidEmail}
-Certificaat: {cbxCertificaat.Text}";
+            var lid = new Lid
+            {
+                ID = registratieCounter.ToString("D8"),
+                Naam = txbNaam.Text,
+                Voornaam = txbVoornaam.Text,
+                Rijksregisternummer = txbLidRRN.Text,
+                Adres = txbLidAdres.Text,
+                Telefoonnummer = LidGSM,
+                Email = LidEmail,
+                Certificaat = cbxCertificaat.Text
+            };
 
 
-            ledenLijst.Add(nieuwLid);
+            ledenLijst.Add(lid);
 
-            txtTest.Text = ledenLijst[0];
+            txtTest.Text = ledenLijst[0].ToString();
+
             txbNaam.Clear();
             txbVoornaam.Clear();
             txbLidRRN.Clear();
@@ -102,15 +131,19 @@ Certificaat: {cbxCertificaat.Text}";
         }
     }
 
-    // Validatie input bij email/gsmnummers
+    // Validatie input bij email
 
     public class EmailValidationRule : ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            string email = value as string;
-            
+            string? email = value as string;
+
+            if (string.IsNullOrWhiteSpace(email))
+                return new ValidationResult(false, "E-mail mag niet leeg zijn.");
+
             string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+
             if (Regex.IsMatch(email, pattern))
                 return ValidationResult.ValidResult;
             
@@ -118,11 +151,15 @@ Certificaat: {cbxCertificaat.Text}";
         }
     }
 
+    // Validatie input bij GSM nummer
     public class GSMValidationRule : ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            string gsm = value as string;
+            string? gsm = value as string;
+
+            if (string.IsNullOrWhiteSpace(gsm))
+                return new ValidationResult(false, "GSM-nummer mag niet leeg zijn.");
 
             string pattern = @"^(?:\+324\d{8}|04\d{8})$";
 
@@ -133,6 +170,54 @@ Certificaat: {cbxCertificaat.Text}";
         }
     }
 
+    // Validatie input bij rijksregisternummer
 
+    public class RijksregisterValidationRule : ValidationRule
+    {
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            string? rrn = value as string;
 
+            if (string.IsNullOrWhiteSpace(rrn))
+                return new ValidationResult(false, "Rijksregisternummer mag niet leeg zijn.");
+
+            // Enkel cijfers en exact 11 karakters
+            if (!Regex.IsMatch(rrn, @"^\d{11}$"))
+                return new ValidationResult(false, "Rijksregisternummer moet uit 11 cijfers bestaan.");
+
+            string baseNumber = rrn.Substring(0, 9);
+            string controlDigits = rrn.Substring(9, 2);
+
+            if (!long.TryParse(baseNumber, out long baseNum) ||
+                !int.TryParse(controlDigits, out int control))
+            {
+                return new ValidationResult(false, "Ongeldig rijksregisternummer.");
+            }
+
+            // Controle voor personen geboren vóór 2000
+            int expectedControl = 97 - (int)(baseNum % 97);
+
+            if (expectedControl == control)
+                return ValidationResult.ValidResult;
+
+            // Controle voor personen geboren na 2000
+            expectedControl = 97 - (int)((2_000_000_000L + baseNum) % 97);
+
+            if (expectedControl == control)
+                return ValidationResult.ValidResult;
+
+            return new ValidationResult(false, "Ongeldig rijksregisternummer.");
+        }
+    }
+
+    // registratie knop uitschakelen bij foute ingave
+
+    public class InverseBoolConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            => !(bool)value;
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            => throw new NotImplementedException();
+    }
 }
