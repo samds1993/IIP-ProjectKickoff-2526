@@ -26,7 +26,7 @@
         <Grid x:Name="grdStart" d:IsHidden="True" Grid.ColumnSpan="2">
             <Image x:Name="imgStart" Source="/img/Startpagina_duiken.jpg" Margin="0,25,0,0" Stretch="UniformToFill" d:IsHidden="True"/>
         </Grid>
-        <Grid x:Name="grdLeden" Grid.ColumnSpan="2">
+        <Grid x:Name="grdLeden" Grid.ColumnSpan="2" d:IsHidden="True">
             <Grid x:Name="FormContainer">
 
                 <Label x:Name="lblLeden" Content="Registratie leden" Margin="10,42,536,351" FontSize="24" Width="250" Height="50"/>
@@ -105,8 +105,25 @@
                 <Button x:Name="btnResetTest" Content="Reset lijst" HorizontalAlignment="Left" Margin="662,363,0,0" VerticalAlignment="Top" Width="107" Click="btnResetTest_Click"/>
             </Grid>
         </Grid>
-        <Grid x:Name="grdTrainingen" d:IsHidden="True" Grid.ColumnSpan="2">
-            <Label x:Name="lblTrainingen" Content="PLACEHOLDER TRAININGEN" Margin="0,25,0,0"/>
+        <Grid x:Name="grdTrainingen" Grid.ColumnSpan="2">
+            <Label x:Name="lblNaamTraining" Content="Naam van de Training" HorizontalAlignment="Left" Margin="5,23,0,0" VerticalAlignment="Top" Height="30" Width="150"/>
+            <TextBox x:Name="txbNaamTraining" TextWrapping="Wrap" Margin="5,58,653,358"/>
+            <Label x:Name="lblTitelTraining" Content="Titel van de Training" HorizontalAlignment="Left" Margin="5,81,0,0" VerticalAlignment="Top" Height="30" Width="150"/>
+            <TextBox x:Name="txbTitelTraining" TextWrapping="Wrap" Margin="5,116,653,300"/>
+            <Label x:Name="lblTagsTraining" Content="Tags" HorizontalAlignment="Left" Margin="160,23,0,0" VerticalAlignment="Top" Height="30" Width="150"/>
+            <ComboBox x:Name="cmbTagsTraining" HorizontalAlignment="Left" Margin="160,53,0,0" VerticalAlignment="Top" Width="120"/>
+            <Label x:Name="lblInhoudTraining" Content="Inhoud van de Training" HorizontalAlignment="Left" Margin="160,81,0,0" VerticalAlignment="Top" Height="30" Width="150"/>
+            <TextBox x:Name="txbInhoudTraining" TextWrapping="Wrap" Margin="160,116,498,300"/>
+            <Label x:Name="lblPlaatsTraining" Content="Plaats van de Training" HorizontalAlignment="Left" Margin="310,23,0,0" VerticalAlignment="Top" Height="30" Width="150"/>
+            <TextBox x:Name="txbPlaatsTraining" TextWrapping="Wrap" Margin="310,58,348,358"/>
+            <Label x:Name="lblBeschikbarePlaatsenTraining" Content="Beschikbare plaatsen" HorizontalAlignment="Left" Margin="310,81,0,0" VerticalAlignment="Top" Height="30" Width="150"/>
+            <TextBox x:Name="txbBeschikbarePlaatsenTraining" TextWrapping="Wrap" Margin="310,116,348,300"/>
+            <Label x:Name="lblNiveauTraining" Content="Niveau" HorizontalAlignment="Left" Margin="460,23,0,0" VerticalAlignment="Top" Height="30" Width="150"/>
+            <ComboBox x:Name="cmbNiveauTraining" HorizontalAlignment="Left" Margin="465,53,0,0" VerticalAlignment="Top" Width="120"/>
+            <Label x:Name="lblDiepteTraining" Content="Diepte" HorizontalAlignment="Left" Margin="465,81,0,0" VerticalAlignment="Top" Height="30" Width="150"/>
+            <TextBox x:Name="txbDiepteTraining" TextWrapping="Wrap" Margin="465,116,193,300"/>
+            <Label x:Name="lblDatumTraining" Content="Datum" HorizontalAlignment="Left" Margin="625,23,0,0" VerticalAlignment="Top" Height="30" Width="150"/>
+            <DatePicker x:Name="dapDatumTraining" HorizontalAlignment="Left" Margin="625,52,0,0" VerticalAlignment="Top" Height="24" Width="134"/>
         </Grid>
         <Grid x:Name="grdSessies" d:IsHidden="True" Grid.ColumnSpan="2">
             <Label x:Name="lblSessies" Content="PLACEHOLDER SESSIES" Margin="0,25,0,0"/>

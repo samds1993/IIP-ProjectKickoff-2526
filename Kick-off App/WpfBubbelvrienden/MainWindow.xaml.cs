@@ -21,6 +21,11 @@ namespace WpfBubbelvrienden
         List<Lid> ledenLijst = new();
         int registratieCounter = 0;
 
+        List<Training> trainingenLijst = new();
+        int trainingenCounter = 0;
+        string[] tags = {"ABC", "DEF"};
+        string[] niveau = { "A", "B", "C" };
+
         public MainWindow()
         {
             InitializeComponent();
@@ -219,5 +224,19 @@ Certificaat: {Certificaat}";
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
             => throw new NotImplementedException();
+    }
+
+    public class Training
+    {
+        public required string ID { get; set; }
+        public required string Naam { get; set; }
+        public required string Titel { get; set; }
+        public required string Tags { get; set; }
+        public required string Inhoud { get; set; }
+        public required string Plaats { get; set; }
+        public required string BeschikbarePlaatsen { get; set; }
+        public required string Niveau { get; set; }
+        public required string Diepte { get; set; }
+        public required string Datum { get; set; }
     }
 }
