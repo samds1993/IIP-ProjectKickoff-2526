@@ -1,0 +1,160 @@
+﻿<Window x:Class="WpfBubbelvrienden.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Bubbelvrienden" Height="720" Width="1100"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Background="#EAF6FF">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- MENU -->
+        <StackPanel Orientation="Horizontal" Background="#CFE8FF" Grid.Row="0">
+            <Button x:Name="btnMenuStart" Content="Start" Width="120" Margin="10,8,0,8" Click="btnMenuStart_Click"/>
+            <Button x:Name="btnMenuTrainingen" Content="Trainingen" Width="120" Margin="10,8,0,8" Click="btnMenuTrainingen_Click"/>
+        </StackPanel>
+
+        <!-- START -->
+        <Grid x:Name="grdStart" Grid.Row="1" Visibility="Visible">
+            <Border Margin="20" Background="White" CornerRadius="10">
+                <Grid>
+                    <TextBlock Text="Welkom bij Bubbelvrienden&#10;Beheer hier trainingen van de duikclub."
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontSize="24"
+                               FontWeight="Bold"
+                               TextAlignment="Center"
+                               Foreground="#1E4E79"/>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- TRAININGEN -->
+        <Grid x:Name="grdTrainingen" Grid.Row="1" Visibility="Collapsed" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="430"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Background="White" CornerRadius="10" Padding="15" Margin="10">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="Trainingen" FontSize="26" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                        <TextBlock Text="Naam van de training"/>
+                        <TextBox x:Name="txbTrainingNaam" Height="28" Margin="0,0,0,8"/>
+
+                        <TextBlock Text="Titel van de training"/>
+                        <TextBox x:Name="txbTrainingTitel" Height="28" Margin="0,0,0,8"/>
+
+                        <TextBlock Text="Tags"/>
+                        <ComboBox x:Name="cbxTags" Height="28" Margin="0,0,0,8">
+                            <ComboBoxItem Content="Zwembad"/>
+                            <ComboBoxItem Content="Open water"/>
+                            <ComboBoxItem Content="Veiligheid"/>
+                            <ComboBoxItem Content="Nachtduik"/>
+                            <ComboBoxItem Content="Navigatie"/>
+                        </ComboBox>
+
+                        <TextBlock Text="Inhoud"/>
+                        <TextBox x:Name="txbTrainingInhoud" Height="80" AcceptsReturn="True" TextWrapping="Wrap" Margin="0,0,0,8"/>
+
+                        <TextBlock Text="Stad"/>
+                        <TextBox x:Name="txbTrainingStad" Height="28" Margin="0,0,0,8"/>
+
+                        <TextBlock Text="Provincie"/>
+                        <TextBox x:Name="txbTrainingProvincie" Height="28" Margin="0,0,0,8"/>
+
+                        <TextBlock Text="Aantal beschikbare plaatsen"/>
+                        <TextBox x:Name="txbBeschikbarePlaatsen" Height="28" Margin="0,0,0,8"/>
+
+                        <TextBlock Text="Niveau"/>
+                        <ComboBox x:Name="cbxTrainingNiveau" Height="28" Margin="0,0,0,8">
+                            <ComboBoxItem Content="1"/>
+                            <ComboBoxItem Content="2"/>
+                            <ComboBoxItem Content="3"/>
+                            <ComboBoxItem Content="4"/>
+                            <ComboBoxItem Content="5"/>
+                        </ComboBox>
+
+                        <TextBlock Text="Diepte (meter)"/>
+                        <TextBox x:Name="txbDiepte" Height="28" Margin="0,0,0,8"/>
+
+                        <TextBlock Text="Datum"/>
+                        <DatePicker x:Name="dpTrainingDatum" Margin="0,0,0,8"/>
+
+                        <TextBlock Text="Startuur (vb. 18:00)"/>
+                        <TextBox x:Name="txbStartuur" Height="28" Margin="0,0,0,8"/>
+
+                        <TextBlock Text="Einduur (vb. 20:00)"/>
+                        <TextBox x:Name="txbEinduur" Height="28" Margin="0,0,0,15"/>
+
+                        <WrapPanel>
+                            <Button x:Name="btnTrainingToevoegen" Content="Toevoegen" Width="100" Margin="0,0,10,10" Click="btnTrainingToevoegen_Click"/>
+                            <Button x:Name="btnTrainingVerwijderen" Content="Verwijderen" Width="100" Margin="0,0,10,10" Click="btnTrainingVerwijderen_Click"/>
+                            <Button x:Name="btnTrainingLeegmaken" Content="Leegmaken" Width="100" Click="btnTrainingLeegmaken_Click"/>
+                        </WrapPanel>
+
+                        <TextBlock x:Name="txtTrainingStatus" Foreground="DarkRed" FontWeight="Bold" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <Border Grid.Column="1" Background="White" CornerRadius="10" Padding="15" Margin="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <DataGrid x:Name="dgTrainingen"
+                              AutoGenerateColumns="False"
+                              SelectionMode="Single"
+                              SelectionChanged="dgTrainingen_SelectionChanged"
+                              IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Naam" Binding="{Binding Naam}" Width="*"/>
+                            <DataGridTextColumn Header="Titel" Binding="{Binding Titel}" Width="*"/>
+                            <DataGridTextColumn Header="Plaats" Binding="{Binding VolledigePlaats}" Width="*"/>
+                            <DataGridTextColumn Header="Plaatsen" Binding="{Binding BeschikbarePlaatsen}" Width="80"/>
+                            <DataGridTextColumn Header="Diepte" Binding="{Binding Diepte}" Width="80"/>
+                            <DataGridTextColumn Header="Vol?" Binding="{Binding VolTekst}" Width="80"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <TextBlock Grid.Row="1" Text="Fictieve inschrijvingen / studenten" FontWeight="Bold" Margin="0,10,0,10"/>
+
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <GroupBox Header="Ingeschreven studenten" Margin="0,0,10,0">
+                            <Grid>
+                                <ListBox x:Name="lstIngeschrevenStudenten"/>
+                            </Grid>
+                        </GroupBox>
+
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <Button x:Name="btnAccepteerStudent" Content="Accepteer &gt;" Width="110" Margin="0,0,0,10" Click="btnAccepteerStudent_Click"/>
+                        </StackPanel>
+
+                        <GroupBox Grid.Column="2" Header="Geaccepteerde studenten">
+                            <Grid>
+                                <ListBox x:Name="lstGeaccepteerdeStudenten"/>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
