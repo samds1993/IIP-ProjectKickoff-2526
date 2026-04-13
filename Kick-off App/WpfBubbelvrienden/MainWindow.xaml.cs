@@ -40,6 +40,7 @@ namespace WpfBubbelvrienden
         public required string LidEmail { get; set; }
         public required string LidGSM { get; set; }
 
+        private Lid? geselecteerdLid;
 
         private void resetgrids()
         {
@@ -119,7 +120,7 @@ Certificaat: {Certificaat}";
 
             ledenLijst.Add(lid);
 
-            txtTest.Text = ledenLijst[0].ToString();
+            txtTest.Text = ledenLijst[^1].ToString();
 
             txbNaam.Clear();
             txbVoornaam.Clear();
@@ -134,7 +135,55 @@ Certificaat: {Certificaat}";
         {
             ledenLijst.Clear();
         }
+
+
+        // Bewerken van leden informatie
+        private void btnSearchID_Click(object sender, RoutedEventArgs e)
+        {
+            string id = txbMemberID.Text;
+
+            geselecteerdLid = ledenLijst.FirstOrDefault(l => l.ID == id);
+
+            if (geselecteerdLid == null)
+            {
+                MessageBox.Show("Geen lid gevonden met dit ID.");
+                return;
+            }
+
+            txbNaam.Text = geselecteerdLid.Naam;
+            txbVoornaam.Text = geselecteerdLid.Voornaam;
+            txbLidRRN.Text = geselecteerdLid.Rijksregisternummer;
+            txbLidAdres.Text = geselecteerdLid.Adres;
+            txbLidGSM.Text = geselecteerdLid.Telefoonnummer;
+            txbLidEmail.Text = geselecteerdLid.Email;
+            cbxCertificaat.Text = geselecteerdLid.Certificaat;
+
+            MessageBox.Show("Lid geladen. Je kan nu de gegevens aanpassen.");
+
+        }
+
+        private void btnSaveNewID_Click(object sender, RoutedEventArgs e)
+        {
+            if (geselecteerdLid == null)
+            {
+                MessageBox.Show("Geen lid geselecteerd om te bewerken.");
+                return;
+            }
+
+            // Update the existing object
+            geselecteerdLid.Naam = txbNaam.Text;
+            geselecteerdLid.Voornaam = txbVoornaam.Text;
+            geselecteerdLid.Rijksregisternummer = txbLidRRN.Text;
+            geselecteerdLid.Adres = txbLidAdres.Text;
+            geselecteerdLid.Telefoonnummer = txbLidGSM.Text;
+            geselecteerdLid.Email = txbLidEmail.Text;
+            geselecteerdLid.Certificaat = cbxCertificaat.Text;
+
+            MessageBox.Show("Lid succesvol bijgewerkt.");
+
+        }
     }
+
 
     // Validatie input bij email
 
@@ -186,7 +235,6 @@ Certificaat: {Certificaat}";
             if (string.IsNullOrWhiteSpace(rrn))
                 return new ValidationResult(false, "Rijksregisternummer mag niet leeg zijn.");
 
-            // Enkel cijfers en exact 11 karakters
             if (!Regex.IsMatch(rrn, @"^\d{11}$"))
                 return new ValidationResult(false, "Rijksregisternummer moet uit 11 cijfers bestaan.");
 
@@ -199,13 +247,11 @@ Certificaat: {Certificaat}";
                 return new ValidationResult(false, "Ongeldig rijksregisternummer.");
             }
 
-            // Controle voor personen geboren vóór 2000
             int expectedControl = 97 - (int)(baseNum % 97);
 
             if (expectedControl == control)
                 return ValidationResult.ValidResult;
 
-            // Controle voor personen geboren na 2000
             expectedControl = 97 - (int)((2_000_000_000L + baseNum) % 97);
 
             if (expectedControl == control)
@@ -226,6 +272,7 @@ Certificaat: {Certificaat}";
             => throw new NotImplementedException();
     }
 
+    // training registratie code
     public class Training
     {
         public required string ID { get; set; }

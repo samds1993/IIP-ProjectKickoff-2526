@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfBubbelvrienden"
         mc:Ignorable="d"
-        Title="Bubbelvrienden" Height="450" Width="800">
+        Title="Bubbelvrienden" Height="484" Width="800">
 
     <Window.Resources>
         <local:InverseBoolConverter x:Key="InverseBoolConverter" />
@@ -23,23 +23,21 @@
             <Button x:Name="btnMenuSessies" Content="Sessies" Click="btnMenuSessies_Click"/>
         </Menu>
         <Rectangle x:Name="rctMainContent" Stroke="Black" Margin="0,25,0,0" Grid.ColumnSpan="2"/>
-        <Grid x:Name="grdStart" d:IsHidden="True" Grid.ColumnSpan="2">
+        <Grid x:Name="grdStart" Grid.ColumnSpan="2" d:IsHidden="True">
             <Image x:Name="imgStart" Source="/img/Startpagina_duiken.jpg" Margin="0,25,0,0" Stretch="UniformToFill" d:IsHidden="True"/>
         </Grid>
-        <Grid x:Name="grdLeden" Grid.ColumnSpan="2" d:IsHidden="True">
+        <Grid x:Name="grdLeden" Grid.ColumnSpan="2">
             <Grid x:Name="FormContainer">
 
-                <Label x:Name="lblLeden" Content="Registratie leden" Margin="10,42,536,351" FontSize="24" Width="250" Height="50"/>
-                <Label x:Name="lblLidNaam" Content="Naam" HorizontalAlignment="Left" Margin="57,88,0,0" VerticalAlignment="Top" FontSize="18" Width="250" Height="30"/>
-                <TextBox x:Name="txbNaam" TextWrapping="Wrap" Text="" Margin="60,122,480,278" Width="250" Height="30"/>
-                <Label x:Name="lblLidVoornaam" Content="Voornaam" HorizontalAlignment="Left" Margin="380,88,0,0" VerticalAlignment="Top" FontSize="18" Width="250" Height="30"/>
-                <TextBox x:Name="txbVoornaam" TextWrapping="Wrap" Text="" Margin="380,122,160,278" Width="250" Height="30"/>
-                <Label x:Name="lblLidRRN" Content="Rijksregisternummer" HorizontalAlignment="Left" Margin="57,160,0,0" VerticalAlignment="Top" FontSize="18" Width="250" Height="30"/>
+                <Label x:Name="lblLeden" Content="Registratie leden" Margin="10,33,540,368" FontSize="20" Width="250" Height="50"/>
+                <Label x:Name="lblLidNaam" Content="Naam" HorizontalAlignment="Left" Margin="50,60,0,0" VerticalAlignment="Top" FontSize="16" Width="250" Height="30"/>
+                <TextBox x:Name="txbNaam" TextWrapping="Wrap" Text="" Margin="50,95,510,335"/>
+                <Label x:Name="lblLidVoornaam" Content="Voornaam" HorizontalAlignment="Left" Margin="350,60,0,0" VerticalAlignment="Top" FontSize="16" Width="250" Height="30"/>
+                <TextBox x:Name="txbVoornaam" TextWrapping="Wrap" Text="" Margin="350,95,220,335"/>
+                <Label x:Name="lblLidRRN" Content="Rijksregisternummer" HorizontalAlignment="Left" Margin="50,120,0,0" VerticalAlignment="Top" FontSize="16" Width="250" Height="30"/>
                 <TextBox x:Name="txbLidRRN"
                     TextWrapping="Wrap"
-                    Margin="59,194,481,206"
-                    Width="250"
-                    Height="30">
+                    Margin="50,155,515,275">
                     <TextBox.Text>
                         <Binding Path="LidRRN"
                  UpdateSourceTrigger="PropertyChanged"
@@ -50,14 +48,12 @@
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
-                <Label x:Name="lblLidAdres" Content="Adres" HorizontalAlignment="Left" Margin="380,160,0,0" VerticalAlignment="Top" FontSize="18" Width="250" Height="30" />
-                <TextBox x:Name="txbLidAdres" TextWrapping="Wrap" Text="" Margin="380,194,160,206" Width="250" Height="30"/>
-                <Label x:Name="lblLidGSM" Content="Telefoonnummer" HorizontalAlignment="Left" Margin="60,234,0,0" VerticalAlignment="Top" FontSize="18" Width="250" Height="30"/>
+                <Label x:Name="lblLidAdres" Content="Adres" HorizontalAlignment="Left" Margin="350,120,0,0" VerticalAlignment="Top" FontSize="16" Width="250" Height="30" />
+                <TextBox x:Name="txbLidAdres" TextWrapping="Wrap" Text="" Margin="350,158,220,275"/>
+                <Label x:Name="lblLidGSM" Content="Telefoonnummer" HorizontalAlignment="Left" Margin="50,180,0,0" VerticalAlignment="Top" FontSize="16" Width="250" Height="30"/>
                 <TextBox x:Name="txbLidGSM"
                     TextWrapping="Wrap"
-                    Margin="59,273,481,127"
-                    Width="250"
-                    Height="30">
+                    Margin="50,215,515,215">
                     <TextBox.Text>
                         <Binding Path="LidGSM" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -67,12 +63,10 @@
                     </TextBox.Text>
                 </TextBox>
 
-                <Label x:Name="lblLidEmail" Content="Email-adres" HorizontalAlignment="Left" Margin="380,234,0,0" VerticalAlignment="Top" FontSize="18" Width="250" Height="30"/>
+                <Label x:Name="lblLidEmail" Content="Email-adres" HorizontalAlignment="Left" Margin="350,180,0,0" VerticalAlignment="Top" FontSize="16" Width="250" Height="30"/>
                 <TextBox x:Name="txbLidEmail"
                      TextWrapping="Wrap"
-                     Margin="380,273,160,127"
-                    Width="250"
-                    Height="30">
+                     Margin="350,215,220,215">
                     <TextBox.Text>
                         <Binding Path="LidEmail" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -81,8 +75,8 @@
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
-                <Label x:Name="lblLidCertificaat" Content="Certificaat" HorizontalAlignment="Left" Margin="60,312,0,0" VerticalAlignment="Top" FontSize="18" Width="250" Height="30"/>
-                <ComboBox x:Name="cbxCertificaat" HorizontalAlignment="Left" Margin="60,351,0,0" VerticalAlignment="Top" Width="250" Height="30">
+                <Label x:Name="lblLidCertificaat" Content="Certificaat" HorizontalAlignment="Left" Margin="50,235,0,0" VerticalAlignment="Top" FontSize="16" Width="250" Height="30"/>
+                <ComboBox x:Name="cbxCertificaat" HorizontalAlignment="Left" Margin="50,270,0,0" VerticalAlignment="Top" Width="235" Height="25">
                     <ComboBoxItem Content="★"/>
                     <ComboBoxItem Content="★★"/>
                     <ComboBoxItem Content="★★★"/>
@@ -92,20 +86,25 @@
                 <Button x:Name="btnRegistratie"
                     Content="Registreren"
                     HorizontalAlignment="Left"
-                    Margin="380,351,0,0"
+                    Margin="350,265,0,0"
                     VerticalAlignment="Top"
-                    Width="250"
+                    Width="222"
                     Height="30"
-                    FontSize="22"
+                    FontSize="18"
                     Click="btnRegistratie_Click"
                     IsEnabled="{Binding ElementName=FormContainer,
                             Path=(Validation.HasError),
-                            Converter={StaticResource InverseBoolConverter}}" />
-                <TextBlock x:Name="txtTest" HorizontalAlignment="Left" Margin="645,122,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="264" Width="145"/>
-                <Button x:Name="btnResetTest" Content="Reset lijst" HorizontalAlignment="Left" Margin="662,363,0,0" VerticalAlignment="Top" Width="107" Click="btnResetTest_Click"/>
+                            Converter={StaticResource InverseBoolConverter}}" FontWeight="Bold" />
+                <TextBlock x:Name="txtTest" HorizontalAlignment="Left" Margin="624,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="276" Width="166"/>
+                <Button x:Name="btnResetTest" Content="Reset lijst" HorizontalAlignment="Left" Margin="624,318,0,0" VerticalAlignment="Top" Width="107" Click="btnResetTest_Click"/>
+                <TextBox x:Name="txbMemberID" HorizontalAlignment="Left" Margin="254,390,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="146" Height="21"/>
+                <TextBlock x:Name="txtEditMember" HorizontalAlignment="Left" Margin="50,328,0,0" TextWrapping="Wrap" Text="Voor het aanpassen van leden info, geef in lid ID en pas de informatie hierboven aan. Klik daarna op opslaan." VerticalAlignment="Top" Height="47" Width="522" FontSize="16" FontWeight="Bold"/>
+                <Label x:Name="lblLidID" Content="Lid ID-nummer" HorizontalAlignment="Left" Margin="43,380,0,0" VerticalAlignment="Top" FontSize="16"/>
+                <Button x:Name="btnSearchID" Content="Zoek" HorizontalAlignment="Left" Margin="446,392,0,0" VerticalAlignment="Top" Height="17" Width="134" FontWeight="Bold" Click="btnSearchID_Click"/>
+                <Button x:Name="btnSaveNewID" Content="Opslaan" HorizontalAlignment="Left" Margin="446,416,0,0" VerticalAlignment="Top" Height="17" Width="134" FontWeight="Bold" Click="btnSaveNewID_Click"/>
             </Grid>
         </Grid>
-        <Grid x:Name="grdTrainingen" Grid.ColumnSpan="2">
+        <Grid x:Name="grdTrainingen" Grid.ColumnSpan="2" d:IsHidden="True">
             <Label x:Name="lblNaamTraining" Content="Naam van de Training" HorizontalAlignment="Left" Margin="5,23,0,0" VerticalAlignment="Top" Height="30" Width="150"/>
             <TextBox x:Name="txbNaamTraining" TextWrapping="Wrap" Margin="5,58,653,358"/>
             <Label x:Name="lblTitelTraining" Content="Titel van de Training" HorizontalAlignment="Left" Margin="5,81,0,0" VerticalAlignment="Top" Height="30" Width="150"/>
