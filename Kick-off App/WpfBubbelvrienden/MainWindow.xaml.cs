@@ -30,6 +30,12 @@ namespace WpfBubbelvrienden
         {
             InitializeComponent();
             DataContext = this;
+
+            //lijsten instellen
+            //@Sam moeten we dit ook gebruiken voor de niveau's van de leden? Of stellen we het beter via de XAML in?
+            cmbTagsTraining.ItemsSource = tags;
+            cmbNiveauTraining.ItemsSource = niveau;
+
             grdStart.Visibility = Visibility.Visible;
             grdLeden.Visibility = Visibility.Hidden;
             grdTrainingen.Visibility = Visibility.Hidden;
@@ -182,6 +188,28 @@ Certificaat: {Certificaat}";
             MessageBox.Show("Lid succesvol bijgewerkt.");
 
         }
+
+        private void btnOpslaanTraining_Click(object sender, RoutedEventArgs e)
+        {
+            trainingenCounter++;
+
+            Training training = new Training
+            {
+                ID = trainingenCounter.ToString("D4"),
+                Naam = txbNaamTraining.Text,
+                Titel = txbTitelTraining.Text,
+                Tags = cmbTagsTraining.SelectedItem?.ToString() ?? "",
+                Inhoud = txbInhoudTraining.Text,
+                Plaats = txbPlaatsTraining.Text,
+                Niveau = cmbNiveauTraining.SelectedItem?.ToString() ?? "",
+                Datum = (dapDatumTraining.SelectedDate ?? DateTime.Now).ToString("dd/MM/yyyy"),
+                BeschikbarePlaatsen = txbBeschikbarePlaatsenTraining.Text,
+                Diepte = txbDiepteTraining.Text
+            };
+
+            trainingenLijst.Add(training);
+            txbTestOutputTraining.Text = training.ToString();
+        }
     }
 
 
@@ -285,5 +313,22 @@ Certificaat: {Certificaat}";
         public required string Niveau { get; set; }
         public required string Diepte { get; set; }
         public required string Datum { get; set; }
+
+        public override string ToString()
+        {
+            return $@"
+ID: {ID}
+Naam: {Naam}
+Titel: {Titel}
+Tags: {Tags}
+Inhoud: {Inhoud}
+Plaats: {Plaats}
+Beschikbare plaatsen: {BeschikbarePlaatsen}
+Niveau: {Niveau}
+Diepte: {Diepte}
+Datum: {Datum:dd/MM/yyyy}
+";
+        }
+
     }
 }

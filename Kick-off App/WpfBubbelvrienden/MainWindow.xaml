@@ -26,7 +26,7 @@
         <Grid x:Name="grdStart" Grid.ColumnSpan="2" d:IsHidden="True">
             <Image x:Name="imgStart" Source="/img/Startpagina_duiken.jpg" Margin="0,25,0,0" Stretch="UniformToFill" d:IsHidden="True"/>
         </Grid>
-        <Grid x:Name="grdLeden" Grid.ColumnSpan="2">
+        <Grid x:Name="grdLeden" Grid.ColumnSpan="2" d:IsHidden="True">
             <Grid x:Name="FormContainer">
 
                 <Label x:Name="lblLeden" Content="Registratie leden" Margin="10,33,540,368" FontSize="20" Width="250" Height="50"/>
@@ -104,7 +104,7 @@
                 <Button x:Name="btnSaveNewID" Content="Opslaan" HorizontalAlignment="Left" Margin="446,416,0,0" VerticalAlignment="Top" Height="17" Width="134" FontWeight="Bold" Click="btnSaveNewID_Click"/>
             </Grid>
         </Grid>
-        <Grid x:Name="grdTrainingen" Grid.ColumnSpan="2" d:IsHidden="True">
+        <Grid x:Name="grdTrainingen" Grid.ColumnSpan="2">
             <Label x:Name="lblNaamTraining" Content="Naam van de Training" HorizontalAlignment="Left" Margin="5,23,0,0" VerticalAlignment="Top" Height="30" Width="150"/>
             <TextBox x:Name="txbNaamTraining" TextWrapping="Wrap" Margin="5,58,653,358"/>
             <Label x:Name="lblTitelTraining" Content="Titel van de Training" HorizontalAlignment="Left" Margin="5,81,0,0" VerticalAlignment="Top" Height="30" Width="150"/>
@@ -123,6 +123,8 @@
             <TextBox x:Name="txbDiepteTraining" TextWrapping="Wrap" Margin="465,116,193,300"/>
             <Label x:Name="lblDatumTraining" Content="Datum" HorizontalAlignment="Left" Margin="625,23,0,0" VerticalAlignment="Top" Height="30" Width="150"/>
             <DatePicker x:Name="dapDatumTraining" HorizontalAlignment="Left" Margin="625,52,0,0" VerticalAlignment="Top" Height="24" Width="134"/>
+            <Button x:Name="btnOpslaanTraining" Margin="638,121,38,314" Content="Opslaan" Click="btnOpslaanTraining_Click"/>
+            <TextBlock x:Name="txbTestOutputTraining" HorizontalAlignment="Left" Margin="143,221,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="156" Width="361"/>
         </Grid>
         <Grid x:Name="grdSessies" d:IsHidden="True" Grid.ColumnSpan="2">
             <Label x:Name="lblSessies" Content="PLACEHOLDER SESSIES" Margin="0,25,0,0"/>
