@@ -25,14 +25,12 @@
         </StackPanel>
 
         <!-- START -->
-        <Grid x:Name="grdStart" Grid.Row="1" Grid.ColumnSpan="2" Visibility="Visible">
+        <Grid x:Name="grdStart" Grid.Row="1" Grid.ColumnSpan="2" Visibility="Visible" d:IsHidden="True">
             <Image x:Name="imgStart"
                    Source="/img/Startpagina_duiken.jpg"
                    Stretch="UniformToFill"
                    Margin="0"/>
         </Grid>
-
-        <!-- LEDEN -->
         <Grid x:Name="grdLeden" Grid.Row="1" Grid.ColumnSpan="2" Visibility="Collapsed">
             <Grid x:Name="FormContainer">
 
@@ -58,11 +56,11 @@
 
                 <Label x:Name="lblLidCertificaat" Content="Certificaat" HorizontalAlignment="Left" Margin="50,245,0,0" VerticalAlignment="Top" FontSize="16" Width="250" Height="30"/>
                 <ComboBox x:Name="cbxCertificaat" HorizontalAlignment="Left" Margin="50,275,0,0" VerticalAlignment="Top" Width="235" Height="25">
-                    <ComboBoxItem Content="1"/>
-                    <ComboBoxItem Content="2"/>
-                    <ComboBoxItem Content="3"/>
-                    <ComboBoxItem Content="4"/>
-                    <ComboBoxItem Content="5"/>
+                    <ComboBoxItem Content="★"/>
+                    <ComboBoxItem Content="★★"/>
+                    <ComboBoxItem Content="★★★"/>
+                    <ComboBoxItem Content="★★★★"/>
+                    <ComboBoxItem Content="★★★★★"/>
                 </ComboBox>
 
                 <Button x:Name="btnRegistratie"
@@ -116,6 +114,8 @@
                 <Button x:Name="btnSaveNewID" Content="Opslaan" HorizontalAlignment="Left" Margin="435,466,0,0" VerticalAlignment="Top" Height="25" Width="100" FontWeight="Bold" Click="btnSaveNewID_Click"/>
             </Grid>
         </Grid>
+
+        <!-- LEDEN -->
 
         <!-- TRAININGEN -->
         <Grid x:Name="grdTrainingen" Grid.Row="1" Grid.ColumnSpan="2" Visibility="Collapsed">

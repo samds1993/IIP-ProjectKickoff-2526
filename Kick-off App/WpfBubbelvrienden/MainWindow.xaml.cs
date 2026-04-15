@@ -176,7 +176,6 @@ Certificaat: {Certificaat}";
                 return;
             }
 
-            // Update the existing object
             geselecteerdLid.Naam = txbNaam.Text;
             geselecteerdLid.Voornaam = txbVoornaam.Text;
             geselecteerdLid.Rijksregisternummer = txbLidRRN.Text;
