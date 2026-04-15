@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -16,15 +17,25 @@ namespace WpfBubbelvrienden
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
     public partial class MainWindow : Window
     {
-        List<Lid> ledenLijst = new();
+        //NIEUW
+        public ObservableCollection<Training> trainingenLijst { get; set; }
+   = new ObservableCollection<Training>();
+
+        public ObservableCollection<Lid> ledenLijst { get; set; }
+    = new ObservableCollection<Lid>();
+
+        //Lijst Verplaats met de public class hierboven, rest mag blijven staan
         int registratieCounter = 0;
 
-        List<Training> trainingenLijst = new();
+        //Lijst Verplaats met de public class hierboven, rest mag blijven staan
         int trainingenCounter = 0;
         string[] tags = {"ABC", "DEF"};
         string[] niveau = { "A", "B", "C" };
+
+       
 
         public MainWindow()
         {
@@ -35,6 +46,7 @@ namespace WpfBubbelvrienden
             //@Sam moeten we dit ook gebruiken voor de niveau's van de leden? Of stellen we het beter via de XAML in?
             cmbTagsTraining.ItemsSource = tags;
             cmbNiveauTraining.ItemsSource = niveau;
+
 
             grdStart.Visibility = Visibility.Visible;
             grdLeden.Visibility = Visibility.Hidden;
@@ -87,18 +99,27 @@ namespace WpfBubbelvrienden
             public required string Naam { get; set; }
             public required string Voornaam { get; set; }
             public required string Rijksregisternummer { get; set; }
-            public required string Adres { get; set; }
+
+            //AANGEPAST
+            public required string Straat { get; set; }
+            public required string Huisnummer { get; set; }
+            public required string Postcode { get; set; }
+            public required string Gemeente { get; set; }
             public required string Telefoonnummer { get; set; }
             public required string Email { get; set; }
-            public required string Certificaat { get; set; }
+            public required int Certificaat { get; set; }
 
+            //AANGEPAST
             public override string ToString()
             {
                 return $@"ID: {ID}
 Naam: {Naam}
 Voornaam: {Voornaam}
 Rijksregisternummer: {Rijksregisternummer}
-Adres: {Adres}
+Straatnaam: {Straat}
+Huisnummer: {Huisnummer}
+Postcode: {Postcode}
+Gemeente: {Gemeente}
 Telefoonnummer: {Telefoonnummer}
 Email-adres: {Email}
 Certificaat: {Certificaat}";
@@ -106,7 +127,7 @@ Certificaat: {Certificaat}";
         }
 
 
-
+        // AANGEPAST
         private void btnRegistratie_Click(object sender, RoutedEventArgs e)
         {
             registratieCounter++;
@@ -117,10 +138,14 @@ Certificaat: {Certificaat}";
                 Naam = txbNaam.Text,
                 Voornaam = txbVoornaam.Text,
                 Rijksregisternummer = txbLidRRN.Text,
-                Adres = txbLidAdres.Text,
+                Straat = txbLidStreet.Text,
+                Huisnummer = txbLidStreetNr.Text,
+                Postcode = txbLidPostcode.Text,
+                Gemeente = txbLidGemeente.Text,               
                 Telefoonnummer = LidGSM,
                 Email = LidEmail,
-                Certificaat = cbxCertificaat.Text
+                //AANGEPAST
+                Certificaat = int.Parse(cbxCertificaat.Text)
             };
 
 
@@ -131,7 +156,11 @@ Certificaat: {Certificaat}";
             txbNaam.Clear();
             txbVoornaam.Clear();
             txbLidRRN.Clear();
-            txbLidAdres.Clear();
+            //AANGEPAST
+            txbLidStreet.Clear();
+            txbLidStreetNr.Clear();
+            txbLidPostcode.Clear();
+            txbLidGemeente.Clear();
             txbLidEmail.Clear();    
             txbLidGSM.Clear();
             cbxCertificaat.SelectedIndex = -1;
@@ -159,10 +188,14 @@ Certificaat: {Certificaat}";
             txbNaam.Text = geselecteerdLid.Naam;
             txbVoornaam.Text = geselecteerdLid.Voornaam;
             txbLidRRN.Text = geselecteerdLid.Rijksregisternummer;
-            txbLidAdres.Text = geselecteerdLid.Adres;
+            //AANGEPAST
+            txbLidStreet.Text = geselecteerdLid.Straat;
+            txbLidStreetNr.Text = geselecteerdLid.Huisnummer;
+            txbLidPostcode.Text = geselecteerdLid.Postcode;
+            txbLidGemeente.Text = geselecteerdLid.Gemeente;
             txbLidGSM.Text = geselecteerdLid.Telefoonnummer;
             txbLidEmail.Text = geselecteerdLid.Email;
-            cbxCertificaat.Text = geselecteerdLid.Certificaat;
+            cbxCertificaat.Text = geselecteerdLid.Certificaat.ToString();
 
             MessageBox.Show("Lid geladen. Je kan nu de gegevens aanpassen.");
 
@@ -179,10 +212,14 @@ Certificaat: {Certificaat}";
             geselecteerdLid.Naam = txbNaam.Text;
             geselecteerdLid.Voornaam = txbVoornaam.Text;
             geselecteerdLid.Rijksregisternummer = txbLidRRN.Text;
-            geselecteerdLid.Adres = txbLidAdres.Text;
+            //AANGEPAST
+            geselecteerdLid.Straat = txbLidStreet.Text;
+            geselecteerdLid.Huisnummer = txbLidStreetNr.Text;
+            geselecteerdLid.Postcode = txbLidPostcode.Text;
+            geselecteerdLid.Gemeente = txbLidGemeente.Text;
             geselecteerdLid.Telefoonnummer = txbLidGSM.Text;
             geselecteerdLid.Email = txbLidEmail.Text;
-            geselecteerdLid.Certificaat = cbxCertificaat.Text;
+            geselecteerdLid.Certificaat = int.Parse(cbxCertificaat.Text);
 
             MessageBox.Show("Lid succesvol bijgewerkt.");
 
@@ -208,6 +245,36 @@ Certificaat: {Certificaat}";
 
             trainingenLijst.Add(training);
             txbTestOutputTraining.Text = training.ToString();
+        }
+
+        //NIEUW
+        // Registratie van trainingsessies
+        private void btnSelectieDuikers_Click(object sender, RoutedEventArgs e)
+        {
+            var geselecteerde = lstDuikers.SelectedItems
+        .Cast<Lid>()
+        .ToList();
+
+            if (geselecteerde.Count != 2)
+            {
+                MessageBox.Show("Selecteer precies 2 duikers.");
+                return;
+            }
+
+            var d1 = geselecteerde[0];
+            var d2 = geselecteerde[1];
+
+            int som = d1.Certificaat + d2.Certificaat;
+
+            if (som == 5)
+            {
+                MessageBox.Show($"{d1.Naam} en {d2.Naam} vormen samen 5 sterren ({d1.Certificaat} + {d2.Certificaat}).");
+            }
+            else
+            {
+                MessageBox.Show("De geselecteerde duikers vormen samen geen 5 sterren.");
+            }
+
         }
     }
 
@@ -287,6 +354,26 @@ Certificaat: {Certificaat}";
             return new ValidationResult(false, "Ongeldig rijksregisternummer.");
         }
     }
+    //NIEUW - Validatie input bij postcode
+    public class PostcodeValidationRule : ValidationRule
+    {
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            string? postcode = value as string;
+
+            if (string.IsNullOrWhiteSpace(postcode))
+                return new ValidationResult(false, "Postcode mag niet leeg zijn.");
+
+            // Exact 4 cijfers
+            string pattern = @"^\d{4}$";
+
+            if (Regex.IsMatch(postcode, pattern))
+                return ValidationResult.ValidResult;
+
+            return new ValidationResult(false, "Postcode moet uit 4 cijfers bestaan.");
+        }
+    }
+
 
     // registratie knop uitschakelen bij foute ingave
 
@@ -331,3 +418,4 @@ Datum: {Datum:dd/MM/yyyy}
 
     }
 }
+
