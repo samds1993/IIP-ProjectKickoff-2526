@@ -4,164 +4,419 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Bubbelvrienden" Height="560" Width="900"
+        Title="Bubbelvrienden"
+        Height="560"
+        Width="900"
         WindowStartupLocation="CenterScreen">
 
     <Grid Background="#EAF6FF">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="15*"/>
-            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="5*" />
         </Grid.ColumnDefinitions>
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="35" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!-- MENU -->
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.ColumnSpan="2" Background="#CFE8FF">
-            <Button x:Name="btnMenuStart" Content="Start" Width="100" Margin="5,4,0,4" Click="btnMenuStart_Click"/>
-            <Button x:Name="btnMenuLeden" Content="Leden" Width="100" Margin="5,4,0,4" Click="btnMenuLeden_Click"/>
-            <Button x:Name="btnMenuTrainingen" Content="Trainingen" Width="100" Margin="5,4,0,4" Click="btnMenuTrainingen_Click"/>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    Background="#CFE8FF">
+            <Button x:Name="btnMenuStart" Content="Start" Width="100" Margin="5,4,0,4" Click="btnMenuStart_Click" />
+            <Button x:Name="btnMenuLeden" Content="Leden" Width="100" Margin="5,4,0,4" Click="btnMenuLeden_Click" />
+            <Button x:Name="btnMenuTrainingen" Content="Trainingen" Width="100" Margin="5,4,0,4" Click="btnMenuTrainingen_Click" />
+            <Button x:Name="btnMenuSessies" Content="Sessies" Width="100" Margin="5,4,0,4" Click="btnMenuSessies_Click" />
         </StackPanel>
 
+        <Rectangle x:Name="rctMainContent"
+                   Stroke="Black"
+                   Margin="0,25,0,0"
+                   Grid.Row="1"
+                   Grid.ColumnSpan="2" />
+
         <!-- START -->
-        <Grid x:Name="grdStart" Grid.Row="1" Grid.ColumnSpan="2" Visibility="Visible">
+        <Grid x:Name="grdStart"
+              Grid.Row="1"
+              Grid.ColumnSpan="2"
+              Visibility="Visible">
             <Image x:Name="imgStart"
                    Source="/img/Startpagina_duiken.jpg"
-                   Stretch="UniformToFill"
-                   Margin="0"/>
+                   Stretch="UniformToFill" />
         </Grid>
 
         <!-- LEDEN -->
-        <Grid x:Name="grdLeden" Grid.Row="1" Grid.ColumnSpan="2" Visibility="Collapsed">
+        <Grid x:Name="grdLeden"
+              Grid.Row="1"
+              Grid.ColumnSpan="2"
+              Visibility="Collapsed">
             <Grid x:Name="FormContainer">
 
-                <Label x:Name="lblLeden" Content="Registratie leden" Margin="10,20,540,390" FontSize="20" Width="250" Height="40" FontWeight="Bold"/>
+                <Label x:Name="lblLeden"
+                       Content="Registratie leden"
+                       Margin="10,20,540,390"
+                       FontSize="20"
+                       Width="250"
+                       Height="40"
+                       FontWeight="Bold" />
 
-                <Label x:Name="lblLidNaam" Content="Naam" HorizontalAlignment="Left" Margin="50,65,0,0" VerticalAlignment="Top" FontSize="16" Width="250" Height="30"/>
-                <TextBox x:Name="txbNaam" Margin="50,95,510,0" Height="25" VerticalAlignment="Top"/>
+                <Label x:Name="lblLidNaam"
+                       Content="Naam"
+                       HorizontalAlignment="Left"
+                       Margin="50,60,0,0"
+                       VerticalAlignment="Top"
+                       FontSize="16"
+                       Width="250"
+                       Height="30" />
+                <TextBox x:Name="txbNaam"
+                         Margin="50,95,510,0"
+                         Height="25"
+                         VerticalAlignment="Top" />
 
-                <Label x:Name="lblLidVoornaam" Content="Voornaam" HorizontalAlignment="Left" Margin="350,65,0,0" VerticalAlignment="Top" FontSize="16" Width="250" Height="30"/>
-                <TextBox x:Name="txbVoornaam" Margin="350,95,220,0" Height="25" VerticalAlignment="Top"/>
+                <Label x:Name="lblLidVoornaam"
+                       Content="Voornaam"
+                       HorizontalAlignment="Left"
+                       Margin="350,60,0,0"
+                       VerticalAlignment="Top"
+                       FontSize="16"
+                       Width="250"
+                       Height="30" />
+                <TextBox x:Name="txbVoornaam"
+                         Margin="350,95,220,0"
+                         Height="25"
+                         VerticalAlignment="Top" />
 
-                <Label x:Name="lblLidRRN" Content="Rijksregisternummer" HorizontalAlignment="Left" Margin="50,125,0,0" VerticalAlignment="Top" FontSize="16" Width="250" Height="30"/>
-                <TextBox x:Name="txbLidRRN" Margin="50,155,515,0" Height="25" VerticalAlignment="Top"/>
+                <Label x:Name="lblLidRRN"
+                       Content="Rijksregisternummer"
+                       HorizontalAlignment="Left"
+                       Margin="600,60,0,0"
+                       VerticalAlignment="Top"
+                       FontSize="16"
+                       Width="250"
+                       Height="30" />
+                <TextBox x:Name="txbLidRRN"
+                         Margin="605,95,26,0"
+                         Height="25"
+                         VerticalAlignment="Top" />
 
-                <Label x:Name="lblLidAdres" Content="Adres" HorizontalAlignment="Left" Margin="350,125,0,0" VerticalAlignment="Top" FontSize="16" Width="250" Height="30"/>
-                <TextBox x:Name="txbLidAdres" Margin="350,155,220,0" Height="25" VerticalAlignment="Top"/>
+                <Label x:Name="lblLidStreet"
+                       Content="Straatnaam"
+                       HorizontalAlignment="Left"
+                       Margin="50,128,0,0"
+                       VerticalAlignment="Top"
+                       FontSize="16"
+                       Width="250"
+                       Height="30" />
+                <TextBox x:Name="txbLidStreet"
+                         Margin="56,157,522,0"
+                         Height="25"
+                         VerticalAlignment="Top" />
 
-                <Label x:Name="lblLidGSM" Content="Telefoonnummer" HorizontalAlignment="Left" Margin="50,185,0,0" VerticalAlignment="Top" FontSize="16" Width="250" Height="30"/>
-                <TextBox x:Name="txbLidGSM" Margin="50,215,515,0" Height="25" VerticalAlignment="Top"/>
+                <Label x:Name="lblLidStreetNr"
+                       Content="Huisnr."
+                       HorizontalAlignment="Left"
+                       Margin="350,128,0,0"
+                       VerticalAlignment="Top"
+                       FontSize="16"
+                       Width="250"
+                       Height="30" />
+                <TextBox x:Name="txbLidStreetNr"
+                         Margin="350,157,372,0"
+                         Height="25"
+                         VerticalAlignment="Top" />
 
-                <Label x:Name="lblLidEmail" Content="Email-adres" HorizontalAlignment="Left" Margin="350,185,0,0" VerticalAlignment="Top" FontSize="16" Width="250" Height="30"/>
-                <TextBox x:Name="txbLidEmail" Margin="350,215,220,0" Height="25" VerticalAlignment="Top"/>
+                <Label x:Name="lblLidPostcode"
+                       Content="Postcode"
+                       HorizontalAlignment="Left"
+                       Margin="461,128,0,0"
+                       VerticalAlignment="Top"
+                       FontSize="16"
+                       Width="250"
+                       Height="30" />
+                <TextBox x:Name="txbLidPostcode"
+                         Margin="465,157,220,0"
+                         Height="25"
+                         VerticalAlignment="Top" />
 
-                <Label x:Name="lblLidCertificaat" Content="Certificaat" HorizontalAlignment="Left" Margin="50,245,0,0" VerticalAlignment="Top" FontSize="16" Width="250" Height="30"/>
-                <ComboBox x:Name="cbxCertificaat" HorizontalAlignment="Left" Margin="50,275,0,0" VerticalAlignment="Top" Width="235" Height="25">
-                    <ComboBoxItem Content="1"/>
-                    <ComboBoxItem Content="2"/>
-                    <ComboBoxItem Content="3"/>
-                    <ComboBoxItem Content="4"/>
-                    <ComboBoxItem Content="5"/>
+                <Label x:Name="lblLidGemeente"
+                       Content="Gemeente"
+                       HorizontalAlignment="Left"
+                       Margin="605,128,0,0"
+                       VerticalAlignment="Top"
+                       FontSize="16"
+                       Width="250"
+                       Height="30" />
+                <TextBox x:Name="txbLidGemeente"
+                         Margin="605,157,26,0"
+                         Height="25"
+                         VerticalAlignment="Top" />
+
+                <Label x:Name="lblLidGSM"
+                       Content="Telefoonnummer"
+                       HorizontalAlignment="Left"
+                       Margin="50,180,0,0"
+                       VerticalAlignment="Top"
+                       FontSize="16"
+                       Width="250"
+                       Height="30" />
+                <TextBox x:Name="txbLidGSM"
+                         Margin="50,215,515,0"
+                         Height="25"
+                         VerticalAlignment="Top" />
+
+                <Label x:Name="lblLidEmail"
+                       Content="Email-adres"
+                       HorizontalAlignment="Left"
+                       Margin="350,180,0,0"
+                       VerticalAlignment="Top"
+                       FontSize="16"
+                       Width="250"
+                       Height="30" />
+                <TextBox x:Name="txbLidEmail"
+                         Margin="350,215,220,0"
+                         Height="25"
+                         VerticalAlignment="Top" />
+
+                <Label x:Name="lblLidCertificaat"
+                       Content="Certificaat"
+                       HorizontalAlignment="Left"
+                       Margin="50,235,0,0"
+                       VerticalAlignment="Top"
+                       FontSize="16"
+                       Width="250"
+                       Height="30" />
+                <ComboBox x:Name="cbxCertificaat"
+                          HorizontalAlignment="Left"
+                          Margin="50,270,0,0"
+                          VerticalAlignment="Top"
+                          Width="235"
+                          Height="25">
+                    <ComboBoxItem Content="1" />
+                    <ComboBoxItem Content="2" />
+                    <ComboBoxItem Content="3" />
+                    <ComboBoxItem Content="4" />
+                    <ComboBoxItem Content="5" />
                 </ComboBox>
 
                 <Button x:Name="btnRegistratie"
                         Content="Registreren"
                         HorizontalAlignment="Left"
-                        Margin="350,270,0,0"
+                        Margin="350,265,0,0"
                         VerticalAlignment="Top"
                         Width="222"
                         Height="30"
                         FontSize="18"
                         FontWeight="Bold"
-                        Click="btnRegistratie_Click"/>
-
-                <Button x:Name="btnImportCsv" Content="Import CSV" HorizontalAlignment="Left" Margin="50,320,0,0" VerticalAlignment="Top" Width="110" Height="30" Click="btnImportCsv_Click"/>
-                <Button x:Name="btnExportCsv" Content="Export CSV" HorizontalAlignment="Left" Margin="175,320,0,0" VerticalAlignment="Top" Width="110" Height="30" Click="btnExportCsv_Click"/>
-                <Button x:Name="btnResetTest" Content="Reset lijst" HorizontalAlignment="Left" Margin="300,320,0,0" VerticalAlignment="Top" Width="110" Height="30" Click="btnResetTest_Click"/>
-
-                <TextBlock x:Name="txtLedenFout"
-                           HorizontalAlignment="Left"
-                           Margin="50,360,0,0"
-                           VerticalAlignment="Top"
-                           Width="520"
-                           Height="45"
-                           TextWrapping="Wrap"
-                           Foreground="DarkRed"
-                           FontWeight="Bold"/>
+                        Click="btnRegistratie_Click" />
 
                 <TextBlock x:Name="txtTest"
                            HorizontalAlignment="Left"
-                           Margin="620,35,0,0"
+                           Margin="624,37,0,0"
                            TextWrapping="Wrap"
                            VerticalAlignment="Top"
-                           Height="380"
-                           Width="230"
-                           FontSize="14"/>
+                           Height="250"
+                           Width="230" />
+
+                <Button x:Name="btnResetTest"
+                        Content="Reset lijst"
+                        HorizontalAlignment="Left"
+                        Margin="624,295,0,0"
+                        VerticalAlignment="Top"
+                        Width="107"
+                        Click="btnResetTest_Click" />
+
+                <Button x:Name="btnImportCsv"
+                        Content="Import CSV"
+                        HorizontalAlignment="Left"
+                        Margin="624,330,0,0"
+                        VerticalAlignment="Top"
+                        Width="107"
+                        Click="btnImportCsv_Click" />
+
+                <Button x:Name="btnExportCsv"
+                        Content="Export CSV"
+                        HorizontalAlignment="Left"
+                        Margin="624,365,0,0"
+                        VerticalAlignment="Top"
+                        Width="107"
+                        Click="btnExportCsv_Click" />
+
+                <TextBlock x:Name="txtLedenFout"
+                           HorizontalAlignment="Left"
+                           Margin="50,305,0,0"
+                           VerticalAlignment="Top"
+                           Height="40"
+                           Width="522"
+                           TextWrapping="Wrap"
+                           Foreground="DarkRed"
+                           FontWeight="Bold" />
+
+                <TextBox x:Name="txbMemberID"
+                         HorizontalAlignment="Left"
+                         Margin="254,390,0,0"
+                         VerticalAlignment="Top"
+                         Width="146"
+                         Height="21" />
 
                 <TextBlock x:Name="txtEditMember"
                            HorizontalAlignment="Left"
-                           Margin="50,415,0,0"
+                           Margin="50,350,0,0"
                            TextWrapping="Wrap"
-                           Text="Voor het aanpassen van ledeninfo: geef een lid-ID in, klik op Zoek, pas de info hierboven aan en klik daarna op Opslaan."
+                           Text="Voor het aanpassen van ledeninfo: geef een lid-ID in, klik op Zoek, pas de informatie hierboven aan en klik daarna op Opslaan."
                            VerticalAlignment="Top"
-                           Height="45"
-                           Width="520"
+                           Height="47"
+                           Width="522"
                            FontSize="14"
-                           FontWeight="Bold"/>
+                           FontWeight="Bold" />
 
-                <Label x:Name="lblLidID" Content="Lid ID-nummer" HorizontalAlignment="Left" Margin="50,465,0,0" VerticalAlignment="Top" FontSize="16"/>
-                <TextBox x:Name="txbMemberID" HorizontalAlignment="Left" Margin="170,468,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="22"/>
-                <Button x:Name="btnSearchID" Content="Zoek" HorizontalAlignment="Left" Margin="320,466,0,0" VerticalAlignment="Top" Height="25" Width="100" FontWeight="Bold" Click="btnSearchID_Click"/>
-                <Button x:Name="btnSaveNewID" Content="Opslaan" HorizontalAlignment="Left" Margin="435,466,0,0" VerticalAlignment="Top" Height="25" Width="100" FontWeight="Bold" Click="btnSaveNewID_Click"/>
+                <Label x:Name="lblLidID"
+                       Content="Lid ID-nummer"
+                       HorizontalAlignment="Left"
+                       Margin="43,380,0,0"
+                       VerticalAlignment="Top"
+                       FontSize="16" />
+
+                <Button x:Name="btnSearchID"
+                        Content="Zoek"
+                        HorizontalAlignment="Left"
+                        Margin="446,392,0,0"
+                        VerticalAlignment="Top"
+                        Height="22"
+                        Width="100"
+                        FontWeight="Bold"
+                        Click="btnSearchID_Click" />
+
+                <Button x:Name="btnSaveNewID"
+                        Content="Opslaan"
+                        HorizontalAlignment="Left"
+                        Margin="446,418,0,0"
+                        VerticalAlignment="Top"
+                        Height="22"
+                        Width="100"
+                        FontWeight="Bold"
+                        Click="btnSaveNewID_Click" />
             </Grid>
         </Grid>
 
-        
-
         <!-- TRAININGEN -->
-        <Grid x:Name="grdTrainingen" Grid.Row="1" Grid.ColumnSpan="2" Visibility="Collapsed">
-            <Label x:Name="lblNaamTraining" Content="Naam van de training" HorizontalAlignment="Left" Margin="15,20,0,0" VerticalAlignment="Top" Height="25" Width="150"/>
-            <TextBox x:Name="txbNaamTraining" TextWrapping="Wrap" Margin="15,50,665,0" Height="25" VerticalAlignment="Top"/>
+        <Grid x:Name="grdTrainingen"
+              Grid.Row="1"
+              Grid.ColumnSpan="2"
+              Visibility="Collapsed">
 
-            <Label x:Name="lblTitelTraining" Content="Titel van de training" HorizontalAlignment="Left" Margin="15,85,0,0" VerticalAlignment="Top" Height="25" Width="150"/>
-            <TextBox x:Name="txbTitelTraining" TextWrapping="Wrap" Margin="15,115,665,0" Height="25" VerticalAlignment="Top"/>
+            <Label x:Name="lblNaamTraining" Content="Naam van de training" HorizontalAlignment="Left" Margin="5,23,0,0" VerticalAlignment="Top" Height="30" Width="150" />
+            <TextBox x:Name="txbNaamTraining" Margin="5,58,653,0" Height="25" VerticalAlignment="Top" />
 
-            <Label x:Name="lblTagsTraining" Content="Tags" HorizontalAlignment="Left" Margin="180,20,0,0" VerticalAlignment="Top" Height="25" Width="100"/>
-            <ComboBox x:Name="cmbTagsTraining" HorizontalAlignment="Left" Margin="180,50,0,0" VerticalAlignment="Top" Width="130" Height="25">
-                <ComboBoxItem Content="Zwembad"/>
-                <ComboBoxItem Content="Open water"/>
-                <ComboBoxItem Content="Veiligheid"/>
-                <ComboBoxItem Content="Nachtduik"/>
-                <ComboBoxItem Content="Navigatie"/>
-            </ComboBox>
+            <Label x:Name="lblTitelTraining" Content="Titel van de training" HorizontalAlignment="Left" Margin="5,81,0,0" VerticalAlignment="Top" Height="30" Width="150" />
+            <TextBox x:Name="txbTitelTraining" Margin="5,116,653,0" Height="25" VerticalAlignment="Top" />
 
-            <Label x:Name="lblInhoudTraining" Content="Inhoud van de training" HorizontalAlignment="Left" Margin="180,85,0,0" VerticalAlignment="Top" Height="25" Width="150"/>
-            <TextBox x:Name="txbInhoudTraining" TextWrapping="Wrap" Margin="180,115,500,0" Height="25" VerticalAlignment="Top"/>
+            <Label x:Name="lblTagsTraining" Content="Tags" HorizontalAlignment="Left" Margin="160,23,0,0" VerticalAlignment="Top" Height="30" Width="150" />
+            <ComboBox x:Name="cmbTagsTraining" HorizontalAlignment="Left" Margin="160,53,0,0" VerticalAlignment="Top" Width="120" />
 
-            <Label x:Name="lblPlaatsTraining" Content="Plaats van de training" HorizontalAlignment="Left" Margin="345,20,0,0" VerticalAlignment="Top" Height="25" Width="150"/>
-            <TextBox x:Name="txbPlaatsTraining" TextWrapping="Wrap" Margin="345,50,335,0" Height="25" VerticalAlignment="Top"/>
+            <Label x:Name="lblInhoudTraining" Content="Inhoud van de training" HorizontalAlignment="Left" Margin="160,81,0,0" VerticalAlignment="Top" Height="30" Width="150" />
+            <TextBox x:Name="txbInhoudTraining" Margin="160,116,498,0" Height="25" VerticalAlignment="Top" />
 
-            <Label x:Name="lblBeschikbarePlaatsenTraining" Content="Beschikbare plaatsen" HorizontalAlignment="Left" Margin="345,85,0,0" VerticalAlignment="Top" Height="25" Width="150"/>
-            <TextBox x:Name="txbBeschikbarePlaatsenTraining" TextWrapping="Wrap" Margin="345,115,335,0" Height="25" VerticalAlignment="Top"/>
+            <Label x:Name="lblPlaatsTraining" Content="Plaats van de training" HorizontalAlignment="Left" Margin="310,23,0,0" VerticalAlignment="Top" Height="30" Width="150" />
+            <TextBox x:Name="txbPlaatsTraining" Margin="310,58,348,0" Height="25" VerticalAlignment="Top" />
 
-            <Label x:Name="lblNiveauTraining" Content="Niveau" HorizontalAlignment="Left" Margin="510,20,0,0" VerticalAlignment="Top" Height="25" Width="100"/>
-            <ComboBox x:Name="cmbNiveauTraining" HorizontalAlignment="Left" Margin="510,50,0,0" VerticalAlignment="Top" Width="120" Height="25">
-                <ComboBoxItem Content="1"/>
-                <ComboBoxItem Content="2"/>
-                <ComboBoxItem Content="3"/>
-                <ComboBoxItem Content="4"/>
-                <ComboBoxItem Content="5"/>
-            </ComboBox>
+            <Label x:Name="lblBeschikbarePlaatsenTraining" Content="Beschikbare plaatsen" HorizontalAlignment="Left" Margin="310,81,0,0" VerticalAlignment="Top" Height="30" Width="150" />
+            <TextBox x:Name="txbBeschikbarePlaatsenTraining" Margin="310,116,348,0" Height="25" VerticalAlignment="Top" />
 
-            <Label x:Name="lblDiepteTraining" Content="Diepte" HorizontalAlignment="Left" Margin="510,85,0,0" VerticalAlignment="Top" Height="25" Width="100"/>
-            <TextBox x:Name="txbDiepteTraining" TextWrapping="Wrap" Margin="510,115,170,0" Height="25" VerticalAlignment="Top"/>
+            <Label x:Name="lblNiveauTraining" Content="Niveau" HorizontalAlignment="Left" Margin="460,23,0,0" VerticalAlignment="Top" Height="30" Width="150" />
+            <ComboBox x:Name="cmbNiveauTraining" HorizontalAlignment="Left" Margin="465,53,0,0" VerticalAlignment="Top" Width="120" />
 
-            <Label x:Name="lblDatumTraining" Content="Datum" HorizontalAlignment="Left" Margin="695,20,0,0" VerticalAlignment="Top" Height="25" Width="80"/>
-            <DatePicker x:Name="dapDatumTraining" HorizontalAlignment="Left" Margin="695,50,0,0" VerticalAlignment="Top" Height="25" Width="140"/>
+            <Label x:Name="lblDiepteTraining" Content="Diepte" HorizontalAlignment="Left" Margin="465,81,0,0" VerticalAlignment="Top" Height="30" Width="150" />
+            <TextBox x:Name="txbDiepteTraining" Margin="465,116,193,0" Height="25" VerticalAlignment="Top" />
 
-            <Button x:Name="btnTrainingToevoegen" Content="Training toevoegen" HorizontalAlignment="Left" Margin="15,165,0,0" VerticalAlignment="Top" Width="160" Height="30" Click="btnTrainingToevoegen_Click"/>
-            <TextBlock x:Name="txtTrainingenInfo" HorizontalAlignment="Left" Margin="15,210,0,0" VerticalAlignment="Top" Width="820" Height="250" TextWrapping="Wrap" FontSize="14"/>
+            <Label x:Name="lblDatumTraining" Content="Datum" HorizontalAlignment="Left" Margin="625,23,0,0" VerticalAlignment="Top" Height="30" Width="150" />
+            <DatePicker x:Name="dapDatumTraining" HorizontalAlignment="Left" Margin="625,52,0,0" VerticalAlignment="Top" Height="24" Width="134" />
+
+            <Button x:Name="btnOpslaanTraining"
+                    Margin="638,121,38,0"
+                    Height="28"
+                    VerticalAlignment="Top"
+                    Content="Opslaan"
+                    Click="btnOpslaanTraining_Click" />
+
+            <TextBlock x:Name="txbTestOutputTraining"
+                       HorizontalAlignment="Left"
+                       Margin="143,221,0,0"
+                       TextWrapping="Wrap"
+                       VerticalAlignment="Top"
+                       Height="200"
+                       Width="500" />
+        </Grid>
+
+        <!-- SESSIES -->
+        <Grid x:Name="grdSessies"
+              Grid.Row="1"
+              Grid.ColumnSpan="2"
+              Margin="0,0,10,10"
+              Visibility="Collapsed">
+
+            <Label x:Name="lblSessies"
+                   Content="Trainingsessies"
+                   Margin="278,25,212,0"
+                   FontSize="20"
+                   Height="30"
+                   VerticalAlignment="Top" />
+
+            <Label x:Name="lblSelectieTraining"
+                   Content="Selecteer de gewenste training"
+                   HorizontalAlignment="Left"
+                   Margin="20,87,0,0"
+                   VerticalAlignment="Top"
+                   Height="26"
+                   Width="173" />
+
+            <ListBox x:Name="lstTrainingen"
+                     ItemsSource="{Binding trainingenLijst}"
+                     Margin="18,118,597,0"
+                     Height="181"
+                     VerticalAlignment="Top"
+                     SelectionMode="Single">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Naam}" FontWeight="Bold" />
+                            <TextBlock Text="{Binding Titel}" />
+                            <TextBlock Text="{Binding Datum}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Label x:Name="lblSelectieDuikers"
+                   Content="Selecteer de gewenste duikers"
+                   HorizontalAlignment="Left"
+                   Margin="234,92,0,0"
+                   VerticalAlignment="Top"
+                   Height="26"
+                   Width="170" />
+
+            <ListBox x:Name="lstDuikers"
+                     ItemsSource="{Binding ledenLijst}"
+                     SelectionMode="Multiple"
+                     DisplayMemberPath="Voornaam"
+                     Margin="225,123,395,159" />
+
+            <Button x:Name="btnSelectieDuikers"
+                    Content="Selecteer"
+                    HorizontalAlignment="Left"
+                    Margin="225,321,0,0"
+                    VerticalAlignment="Top"
+                    Width="85"
+                    Click="btnSelectieDuikers_Click" />
+
+            <TextBlock x:Name="txtSessieOutput"
+                       HorizontalAlignment="Left"
+                       Margin="225,360,0,0"
+                       VerticalAlignment="Top"
+                       Width="420"
+                       Height="80"
+                       TextWrapping="Wrap"
+                       FontWeight="Bold" />
         </Grid>
     </Grid>
 </Window>

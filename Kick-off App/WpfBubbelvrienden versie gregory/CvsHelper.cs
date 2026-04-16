@@ -6,30 +6,34 @@ namespace WpfBubbelvrienden
 {
     public static class CsvHelper
     {
-        public static void ExporteerLeden(string pad, List<MemberRecord> leden)
+        public static void ExporteerLeden(string pad, List<Lid> leden)
         {
             using (StreamWriter writer = new StreamWriter(pad))
             {
-                writer.WriteLine("MemberId,Naam,Voornaam,Rijksregisternummer,Adres,Telefoonnummer,Emailadres,Sterren");
+                writer.WriteLine("ID,Naam,Voornaam,Rijksregisternummer,Straat,Huisnummer,Postcode,Gemeente,Telefoonnummer,Email,Certificaat");
 
-                foreach (MemberRecord lid in leden)
+                foreach (Lid lid in leden)
                 {
                     writer.WriteLine(
-                        lid.MemberId + "," +
+                        Escape(lid.ID) + "," +
                         Escape(lid.Naam) + "," +
                         Escape(lid.Voornaam) + "," +
                         Escape(lid.Rijksregisternummer) + "," +
-                        Escape(lid.Adres) + "," +
+                        Escape(lid.Straat) + "," +
+                        Escape(lid.Huisnummer) + "," +
+                        Escape(lid.Postcode) + "," +
+                        Escape(lid.Gemeente) + "," +
                         Escape(lid.Telefoonnummer) + "," +
-                        Escape(lid.Emailadres) + "," +
-                        lid.Sterren);
+                        Escape(lid.Email) + "," +
+                        lid.Certificaat);
                 }
             }
         }
 
-        public static List<MemberRecord> ImporteerLeden(string pad)
+        public static List<Lid> ImporteerLeden(string pad)
         {
-            List<MemberRecord> resultaat = new List<MemberRecord>();
+            List<Lid> resultaat = new List<Lid>();
+
             string[] lijnen = File.ReadAllLines(pad);
 
             if (lijnen.Length <= 1)
@@ -41,17 +45,20 @@ namespace WpfBubbelvrienden
             {
                 string[] delen = SplitCsv(lijnen[i]);
 
-                if (delen.Length >= 8)
+                if (delen.Length >= 11)
                 {
-                    MemberRecord lid = new MemberRecord();
-                    lid.MemberId = int.Parse(delen[0]);
+                    Lid lid = new Lid();
+                    lid.ID = delen[0];
                     lid.Naam = delen[1];
                     lid.Voornaam = delen[2];
                     lid.Rijksregisternummer = delen[3];
-                    lid.Adres = delen[4];
-                    lid.Telefoonnummer = delen[5];
-                    lid.Emailadres = delen[6];
-                    lid.Sterren = int.Parse(delen[7]);
+                    lid.Straat = delen[4];
+                    lid.Huisnummer = delen[5];
+                    lid.Postcode = delen[6];
+                    lid.Gemeente = delen[7];
+                    lid.Telefoonnummer = delen[8];
+                    lid.Email = delen[9];
+                    lid.Certificaat = int.Parse(delen[10]);
 
                     resultaat.Add(lid);
                 }
