@@ -268,7 +268,7 @@ Certificaat: {Certificaat}";
 
             if (som == 5)
             {
-                MessageBox.Show($"{d1.Naam} en {d2.Naam} vormen samen 5 sterren ({d1.Certificaat} + {d2.Certificaat}).");
+                MessageBox.Show($"{d1.Voornaam} en {d2.Voornaam} vormen samen 5 sterren ({d1.Certificaat} + {d2.Certificaat}).");
             }
             else
             {
