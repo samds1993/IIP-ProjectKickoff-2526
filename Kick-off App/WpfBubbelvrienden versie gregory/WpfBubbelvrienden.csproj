@@ -10,10 +10,14 @@
 
   <ItemGroup>
     <None Remove="img\Startpagina_duiken.jpg" />
+    <None Remove="img\Zeeduiker.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="img\Startpagina_duiken.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\Zeeduiker.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

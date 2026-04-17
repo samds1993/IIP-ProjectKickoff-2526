@@ -43,15 +43,18 @@
             Grid.ColumnSpan="2"
             Visibility="Visible" d:IsHidden="True">
                 <Image x:Name="imgStart"
-                Source="/img/Startpagina_duiken.jpg"
+                Source="/img/Zeeduiker.jpg"
                 Stretch="UniformToFill" />
+                <Label x:Name="lblTitelStart" Content="Bubbelvrienden" Margin="55,55,1282,826" FontSize="80" Foreground="White" FontFamily="Gill Sans MT"/>
+                <Label x:Name="lblAantalLeden" Margin="1327,29,10,852" FontSize="80" Foreground="White" FontFamily="Gill Sans MT"/>
+                <Label x:Name="lblAantalTrainingen" Margin="1327,193,10,688" FontSize="80" Foreground="White" FontFamily="Gill Sans MT"/>
             </Grid>
 
             <!-- LEDEN -->
             <Grid x:Name="grdLeden"
             Grid.Row="1"
-            Grid.ColumnSpan="2">
-                <Grid x:Name="FormContainer" d:IsHidden="True">
+            Grid.ColumnSpan="2" d:IsHidden="True">
+                <Grid x:Name="FormContainer">
 
                     <Label x:Name="lblLeden"
                     Content="Registratie leden"
@@ -210,11 +213,11 @@
 
                     <TextBlock x:Name="txtTest"
                     HorizontalAlignment="Left"
-                    Margin="1019,297,0,0"
+                    Margin="624,188,0,0"
                     TextWrapping="Wrap"
                     VerticalAlignment="Top"
-                    Height="250"
-                    Width="231" />
+                    Height="600"
+                    Width="500" />
 
                     <Button x:Name="btnResetTest"
                     Content="Reset lijst"
@@ -307,7 +310,7 @@
             <!-- TRAININGEN -->
             <Grid x:Name="grdTrainingen"
             Grid.Row="1"
-            Grid.ColumnSpan="2" d:IsHidden="True">
+            Grid.ColumnSpan="2">
 
                 <Label x:Name="lblTrainingen"
                         Content="Registratie leden"
@@ -349,18 +352,18 @@
 
                 <TextBlock x:Name="txbTestOutputTraining"
                 HorizontalAlignment="Left"
-                Margin="143,221,0,0"
+                Margin="160,0,0,0"
                 TextWrapping="Wrap"
-                VerticalAlignment="Top"
-                Height="200"
-                Width="500" />
+                VerticalAlignment="Center"
+                Height="600"
+                Width="540" />
             </Grid>
 
             <!-- SESSIES -->
             <Grid x:Name="grdSessies"
             Grid.Row="1"
             Grid.ColumnSpan="2"
-            Margin="0,0,10,10">
+            Margin="0,0,10,10" d:IsHidden="True">
 
                 <Label x:Name="lblSessies"
                     Content="Registreer sessies"

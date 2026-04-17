@@ -17,7 +17,7 @@ namespace WpfBubbelvrienden
         private int registratieCounter = 0;
         private int trainingenCounter = 0;
 
-        private string[] tags = { "ABC", "DEF", "Open Water", "Zwembad", "Nachtduik" };
+        private string[] tags = { "Open Water", "Zwembad", "Nachtduik" };
         private string[] niveau = { "1", "2", "3", "4", "5" };
 
         private Lid? geselecteerdLid;
@@ -39,6 +39,9 @@ namespace WpfBubbelvrienden
             grdTrainingen.Visibility = Visibility.Collapsed;
             grdSessies.Visibility = Visibility.Collapsed;
 
+            //eerst startdata aanmaken
+            MaakStartData();
+            BerekenTellers();
             VernieuwLedenOutput();
             VernieuwTrainingenOutput();
         }
@@ -55,6 +58,7 @@ namespace WpfBubbelvrienden
         {
             ResetGrids();
             grdStart.Visibility = Visibility.Visible;
+            BerekenTellers();
         }
 
         private void btnMenuLeden_Click(object sender, RoutedEventArgs e)
@@ -444,6 +448,94 @@ namespace WpfBubbelvrienden
                 txtSessieOutput.Text =
                     "De geselecteerde duikers vormen geen geldig team voor deze training.";
             }
+        }
+
+
+        private void MaakStartData()
+        {
+            ledenLijst.Add(new Lid
+            {
+                ID = "00000001",
+                Naam = "Gaudeus",
+                Voornaam = "Gregory",
+                Rijksregisternummer = "92071435740",
+                Straat = "Kerkstraat",
+                Huisnummer = "10",
+                Postcode = "9000",
+                Gemeente = "Gent",
+                Telefoonnummer = "0412345678",
+                Email = "gregory.gaudeus@student.odisee.be",
+                Certificaat = 2
+            });
+
+            ledenLijst.Add(new Lid
+            {
+                ID = "00000002",
+                Naam = "De Smet",
+                Voornaam = "Sam",
+                Rijksregisternummer = "92030554321",
+                Straat = "Dorpstraat",
+                Huisnummer = "25",
+                Postcode = "9300",
+                Gemeente = "Aalst",
+                Telefoonnummer = "0423456789",
+                Email = "sam.desmet2@student.odisee.be",
+                Certificaat = 3
+            });
+
+            ledenLijst.Add(new Lid
+            {
+                ID = "00000003",
+                Naam = "Knops",
+                Voornaam = "Wout",
+                Rijksregisternummer = "88071298765",
+                Straat = "Stationsstraat",
+                Huisnummer = "3",
+                Postcode = "1770",
+                Gemeente = "Liedekerke",
+                Telefoonnummer = "0434567890",
+                Email = "wout.knops@student.odisee.be",
+                Certificaat = 1
+            });
+            
+            registratieCounter = ledenLijst.Count;
+
+
+            trainingenLijst.Add(new Training
+            {
+                ID = "0001",
+                Naam = "Basis Open Water",
+                Titel = "Introductieduik",
+                Tags = "Open Water",
+                Inhoud = "Eerste kennismaking met duiken in open water",
+                Plaats = "Zilvermeer",
+                Niveau = "1",
+                Datum = DateTime.Today.AddDays(7),
+                BeschikbarePlaatsen = 10,
+                Diepte = 5
+            });
+
+            trainingenLijst.Add(new Training
+            {
+                ID = "0002",
+                Naam = "Nachtduik Specialisatie",
+                Titel = "Duiken bij duisternis",
+                Tags = "Nachtduik",
+                Inhoud = "Geavanceerde training voor nachtduiken",
+                Plaats = "Put van Ekeren",
+                Niveau = "3",
+                Datum = DateTime.Today.AddDays(14),
+                BeschikbarePlaatsen = 6,
+                Diepte = 25
+            });
+
+            trainingenCounter = trainingenLijst.Count;
+        }
+
+        private void BerekenTellers()
+        {
+            lblAantalLeden.Content = $"{ledenLijst.Count} actieve leden";
+            lblAantalTrainingen.Content = $"{trainingenLijst.Count} trainingen";
         }
     }
 }
