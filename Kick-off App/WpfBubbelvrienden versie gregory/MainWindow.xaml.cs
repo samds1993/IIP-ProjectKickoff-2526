@@ -170,6 +170,7 @@ namespace WpfBubbelvrienden
             cbxCertificaat.SelectedIndex = geselecteerdLid.Certificaat - 1;
 
             MessageBox.Show("Lid geladen. Je kan nu de gegevens aanpassen.");
+            //zouden we hier de btnRegistratie best verbergen en als er gesaved wordt, opnieuw zichtbaar maken?
         }
 
         private void btnSaveNewID_Click(object sender, RoutedEventArgs e)
@@ -221,6 +222,7 @@ namespace WpfBubbelvrienden
             VernieuwLedenOutput();
             txtLedenFout.Text = "Lid succesvol bijgewerkt.";
             MessageBox.Show("Lid succesvol bijgewerkt.");
+            MaakLidFormulierLeeg();
         }
 
         private void btnImportCsv_Click(object sender, RoutedEventArgs e)
