@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WpfBubbelvrienden
 {
@@ -14,6 +15,16 @@ namespace WpfBubbelvrienden
         public string Niveau { get; set; } = "";
         public int Diepte { get; set; }
         public DateTime Datum { get; set; }
+        public TimeSpan StartUur { get; set; }
+        public TimeSpan EindUur { get; set; }
+
+        public List<string> IngeschrevenStudenten { get; set; } = new List<string>();
+        public List<string> GeaccepteerdeStudenten { get; set; } = new List<string>();
+
+        public bool IsVol
+        {
+            get { return GeaccepteerdeStudenten.Count >= BeschikbarePlaatsen; }
+        }
 
         public override string ToString()
         {
@@ -27,7 +38,9 @@ namespace WpfBubbelvrienden
                 "Beschikbare plaatsen: " + BeschikbarePlaatsen + "\n" +
                 "Niveau: " + Niveau + "\n" +
                 "Diepte: " + Diepte + "\n" +
-                "Datum: " + Datum.ToString("dd/MM/yyyy");
+                "Datum: " + Datum.ToString("dd/MM/yyyy") + "\n" +
+                "Startuur: " + StartUur.ToString(@"hh\:mm") + "\n" +
+                "Einduur: " + EindUur.ToString(@"hh\:mm");
         }
     }
 }
