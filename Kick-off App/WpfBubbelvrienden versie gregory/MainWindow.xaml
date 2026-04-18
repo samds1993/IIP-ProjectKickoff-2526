@@ -54,7 +54,7 @@
             <!-- LEDEN -->
             <Grid x:Name="grdLeden"
                   Grid.Row="1"
-                  Grid.ColumnSpan="2" d:IsHidden="True">
+                  Grid.ColumnSpan="2">
                 <Grid x:Name="FormContainer">
 
                     <Label x:Name="lblLeden"
@@ -109,7 +109,7 @@
                     <Button x:Name="btnRegistratie"
                             Content="Registreren"
                             HorizontalAlignment="Left"
-                            Margin="1450,85,0,0"
+                            Margin="1450,55,0,0"
                             VerticalAlignment="Top"
                             Width="252"
                             Height="30"
@@ -120,7 +120,7 @@
                     <Button x:Name="btnVerhoogCertificaat"
                             Content="Certificaat +1"
                             HorizontalAlignment="Left"
-                            Margin="1450,125,0,0"
+                            Margin="1450,95,0,0"
                             VerticalAlignment="Top"
                             Width="252"
                             Height="30"
@@ -131,7 +131,7 @@
                     <Button x:Name="btnVerwijderLid"
                             Content="Verwijder lid"
                             HorizontalAlignment="Left"
-                            Margin="1450,165,0,0"
+                            Margin="1450,135,0,0"
                             VerticalAlignment="Top"
                             Width="252"
                             Height="30"
@@ -199,7 +199,7 @@
                                HorizontalAlignment="Left"
                                Margin="50,350,0,0"
                                TextWrapping="Wrap"
-                               Text="Voor het aanpassen van ledeninfo: geef een lid-ID in, klik op Zoek, pas de informatie hierboven aan en klik daarna op Opslaan."
+                               Text="Om ledeninfo aan te passen: geef een lid-ID in, klik op Zoek, pas de informatie hierboven aan en sla op."
                                VerticalAlignment="Top"
                                Height="47"
                                Width="522"
@@ -207,7 +207,7 @@
                                FontWeight="Bold" />
 
                     <Label x:Name="lblLidID"
-                           Content="Lid ID-nummer"
+                           Content="Zoek Lid ID"
                            HorizontalAlignment="Left"
                            Margin="55,185,0,0"
                            VerticalAlignment="Top"
@@ -241,6 +241,7 @@
                            Width="250"
                            Height="40"
                            FontWeight="Bold" />
+                    <Image x:Name="imgDuiker" HorizontalAlignment="Left" Height="455" Margin="1130,340,0,0" VerticalAlignment="Top" Width="745" Source="/img/duiker.png"/>
                 </Grid>
             </Grid>
 
@@ -300,12 +301,12 @@
                         Click="btnOpslaanTraining_Click" />
 
                 <Label x:Name="lblIngeschrevenStudenten" Content="Ingeschreven studenten" HorizontalAlignment="Left" Margin="730,230,0,0" VerticalAlignment="Top" FontSize="18" />
-                <ListBox x:Name="lstIngeschrevenStudenten" Margin="730,270,890,340"/>
+                <ListBox x:Name="lstIngeschrevenStudenten" Margin="730,270,890,340" FontSize="16"/>
 
                 <Button x:Name="btnAccepteerStudent" Content="Accepteer student" HorizontalAlignment="Left" Margin="1045,345,0,0" VerticalAlignment="Top" Width="150" Height="30" Click="btnAccepteerStudent_Click"/>
 
                 <Label x:Name="lblGeaccepteerdeStudenten" Content="Geaccepteerde studenten" HorizontalAlignment="Left" Margin="1230,230,0,0" VerticalAlignment="Top" FontSize="18" />
-                <ListBox x:Name="lstGeaccepteerdeStudenten" Margin="1230,270,390,340"/>
+                <ListBox x:Name="lstGeaccepteerdeStudenten" Margin="1230,270,390,340" FontSize="16"/>
 
                 <TextBlock x:Name="txtTrainingStatus"
                            HorizontalAlignment="Left"
@@ -337,7 +338,7 @@
             <Grid x:Name="grdSessies"
                   Grid.Row="1"
                   Grid.ColumnSpan="2"
-                  Margin="0,0,10,10">
+                  Margin="0,0,10,10" d:IsHidden="True">
 
                 <Label x:Name="lblSessies"
                        Content="Registreer sessies"
