@@ -196,7 +196,7 @@ namespace WpfBubbelvrienden
             registratieCounter = 0;
             geselecteerdLid = null;
             txtLedenFout.Text = "";
-            txtTest.Text = "Geen leden geregistreerd.";
+            txtLedenLijst.Text = "Geen leden geregistreerd.";
             txtSessieOutput.Text = "";
             VernieuwBeschikbareDuikers();
         }
@@ -343,7 +343,7 @@ namespace WpfBubbelvrienden
         {
             if (ledenLijst.Count == 0)
             {
-                txtTest.Text = "Geen leden geregistreerd.";
+                txtLedenLijst.Text = "Geen leden geregistreerd.";
                 return;
             }
 
@@ -355,7 +355,7 @@ namespace WpfBubbelvrienden
                 sb.AppendLine("------------------------");
             }
 
-            txtTest.Text = sb.ToString();
+            txtLedenLijst.Text = sb.ToString();
         }
 
         private void MaakLidFormulierLeeg()
@@ -509,7 +509,7 @@ namespace WpfBubbelvrienden
         {
             if (trainingenLijst.Count == 0)
             {
-                txbTestOutputTraining.Text = "Nog geen trainingen toegevoegd.";
+                txbTrainingsLijst.Text = "Nog geen trainingen toegevoegd.";
                 return;
             }
 
@@ -523,7 +523,7 @@ namespace WpfBubbelvrienden
                 sb.AppendLine("------------------------");
             }
 
-            txbTestOutputTraining.Text = sb.ToString();
+            txbTrainingsLijst.Text = sb.ToString();
         }
 
         private void MaakTrainingFormulierLeeg()

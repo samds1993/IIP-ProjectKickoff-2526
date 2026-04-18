@@ -41,7 +41,7 @@
             <Grid x:Name="grdStart"
                   Grid.Row="1"
                   Grid.ColumnSpan="2"
-                  Visibility="Visible">
+                  Visibility="Visible" d:IsHidden="True">
                 <Image x:Name="imgStart"
                        Source="/img/Zeeduiker.jpg"
                        Stretch="UniformToFill" />
@@ -54,8 +54,7 @@
             <!-- LEDEN -->
             <Grid x:Name="grdLeden"
                   Grid.Row="1"
-                  Grid.ColumnSpan="2"
-                  Visibility="Collapsed">
+                  Grid.ColumnSpan="2" d:IsHidden="True">
                 <Grid x:Name="FormContainer">
 
                     <Label x:Name="lblLeden"
@@ -140,13 +139,19 @@
                             FontWeight="Bold"
                             Click="btnVerwijderLid_Click" />
 
-                    <TextBlock x:Name="txtTest"
-                               HorizontalAlignment="Left"
-                               Margin="624,188,0,0"
-                               TextWrapping="Wrap"
-                               VerticalAlignment="Top"
-                               Height="600"
-                               Width="500" />
+                    <ScrollViewer x:Name="scrLedenLijst"
+                                    HorizontalScrollBarVisibility="Auto"
+                                    VerticalScrollBarVisibility="Auto"
+                                    Height="600"
+                                    Width="500"
+                                    Margin="624,188,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top">
+
+                        <TextBlock x:Name="txtLedenLijst"
+               TextWrapping="Wrap" FontSize="16" />
+                    </ScrollViewer>
+
 
                     <Button x:Name="btnResetTest"
                             Content="Reset lijst"
@@ -242,8 +247,7 @@
             <!-- TRAININGEN -->
             <Grid x:Name="grdTrainingen"
                   Grid.Row="1"
-                  Grid.ColumnSpan="2"
-                  Visibility="Collapsed">
+                  Grid.ColumnSpan="2" d:IsHidden="True">
 
                 <Label x:Name="lblTrainingen"
                        Content="Registratie trainingen"
@@ -313,21 +317,27 @@
                            Foreground="DarkRed"
                            FontWeight="Bold" />
 
-                <TextBlock x:Name="txbTestOutputTraining"
-                           HorizontalAlignment="Left"
-                           Margin="160,0,0,0"
-                           TextWrapping="Wrap"
-                           VerticalAlignment="Center"
-                           Height="600"
-                           Width="540" />
+
+                <ScrollViewer x:Name="scrTrainingsLijst"
+                            HorizontalScrollBarVisibility="Auto"
+                            VerticalScrollBarVisibility="Auto"
+                            Height="600"
+                            Width="540"
+                            Margin="160,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center">
+
+                    <TextBlock x:Name="txbTrainingsLijst"
+               TextWrapping="Wrap" FontSize="16"/>
+                </ScrollViewer>
+
             </Grid>
 
             <!-- SESSIES -->
             <Grid x:Name="grdSessies"
                   Grid.Row="1"
                   Grid.ColumnSpan="2"
-                  Margin="0,0,10,10"
-                  Visibility="Collapsed">
+                  Margin="0,0,10,10">
 
                 <Label x:Name="lblSessies"
                        Content="Registreer sessies"
