@@ -45,9 +45,10 @@
                 <Image x:Name="imgStart"
                        Source="/img/Zeeduiker.jpg"
                        Stretch="UniformToFill" />
-                <Label x:Name="lblTitelStart" Content="Bubbelvrienden" Margin="55,55,1282,826" FontSize="80" Foreground="White" FontFamily="Gill Sans MT"/>
-                <Label x:Name="lblAantalLeden" Margin="1327,29,10,852" FontSize="80" Foreground="White" FontFamily="Gill Sans MT"/>
-                <Label x:Name="lblAantalTrainingen" Margin="1327,193,10,688" FontSize="80" Foreground="White" FontFamily="Gill Sans MT"/>
+                <Label x:Name="lblTitelStart" Content="Bubbelvrienden" Margin="0,10,1231,934" FontSize="80" Foreground="White" FontFamily="Cascadia Code" FontWeight="Bold"/>
+                <Label x:Name="lblTitelApp" Content="De registratie app" Margin="0,111,1231,833" FontSize="48" Foreground="White" FontFamily="Cascadia Code" FontWeight="Bold"/>
+                <Label x:Name="lblAantalLeden" Margin="1440,29,10,934" FontSize="48" Foreground="White" FontFamily="Cascadia Code"/>
+                <Label x:Name="lblAantalTrainingen" Margin="1440,118,10,833" FontSize="48" Foreground="White" FontFamily="Cascadia Code"/>
             </Grid>
 
             <!-- LEDEN -->
