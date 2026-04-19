@@ -54,7 +54,7 @@
             <!-- LEDEN -->
             <Grid x:Name="grdLeden"
                   Grid.Row="1"
-                  Grid.ColumnSpan="2" d:IsHidden="True">
+                  Grid.ColumnSpan="2">
                 <Grid x:Name="FormContainer">
 
                     <Label x:Name="lblLeden"
@@ -116,11 +116,20 @@
                             FontSize="18"
                             FontWeight="Bold"
                             Click="btnRegistratie_Click" />
+                    <Button x:Name="btnZoekLeden"
+                        Content="Zoek Bestaand Lid"
+                        HorizontalAlignment="Left"
+                        Margin="1450,95                             ,0,0"
+                        VerticalAlignment="Top"
+                        Width="252"
+                        Height="30"
+                        FontSize="16"
+                        FontWeight="Bold" Click="btnZoekLeden_Click" />
 
                     <Button x:Name="btnVerhoogCertificaat"
                             Content="Certificaat +1"
                             HorizontalAlignment="Left"
-                            Margin="1450,95,0,0"
+                            Margin="1450,135,0,0"
                             VerticalAlignment="Top"
                             Width="252"
                             Height="30"
@@ -131,7 +140,7 @@
                     <Button x:Name="btnVerwijderLid"
                             Content="Verwijder lid"
                             HorizontalAlignment="Left"
-                            Margin="1450,135,0,0"
+                            Margin="1450,175,0,0"
                             VerticalAlignment="Top"
                             Width="252"
                             Height="30"
@@ -186,7 +195,7 @@
                              Height="21"
                              FontSize="16" />
                     <Button x:Name="btnSearchID"
-                            Content="Zoek"
+                            Content="Laad Lid"
                             HorizontalAlignment="Left"
                             Margin="475,190,0,0"
                             VerticalAlignment="Top"
@@ -195,7 +204,7 @@
                             FontWeight="Bold"
                             Click="btnSearchID_Click" />
                     <Button x:Name="btnSaveNewID"
-                            Content="Opslaan"
+                            Content="Lid Opslaan"
                             HorizontalAlignment="Left"
                             Margin="475,225,0,0"
                             VerticalAlignment="Top"
@@ -236,6 +245,12 @@
                TextWrapping="Wrap" FontSize="16" />
                     </ScrollViewer>
                     <Image x:Name="imgDuiker" HorizontalAlignment="Left" Height="455" Margin="1130,340,0,0" VerticalAlignment="Top" Width="745" Source="/img/duiker.png"/>
+                    <Button x:Name="btnResetZoekOpdracht"
+                        Content="Reset Zoekopdracht"
+                        HorizontalAlignment="Left"
+                        Margin="1155,185,0,0"
+                        VerticalAlignment="Top"
+                        Width="152" Click="btnResetZoekOpdracht_Click" Height="30" FontSize="16" />
                 </Grid>
             </Grid>
 
@@ -329,7 +344,7 @@
             <Grid x:Name="grdSessies"
                   Grid.Row="1"
                   Grid.ColumnSpan="2"
-                  Margin="0,0,10,10">
+                  Margin="0,0,10,10" d:IsHidden="True">
 
                 <Label x:Name="lblSessies"
                        Content="Registreer sessies"

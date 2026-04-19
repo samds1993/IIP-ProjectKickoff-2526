@@ -732,5 +732,54 @@ namespace WpfBubbelvrienden
             lblAantalLeden.Content = ledenLijst.Count + " actieve leden";
             lblAantalTrainingen.Content = trainingenLijst.Count + " trainingen";
         }
+
+        private void btnZoekLeden_Click(object sender, RoutedEventArgs e)
+        {
+
+            txtLedenFout.Text = "";
+
+            var gefilterdeLeden = ledenLijst.Where(lid =>
+                (string.IsNullOrWhiteSpace(txbNaam.Text) ||
+                    lid.Naam.Contains(txbNaam.Text.Trim(), StringComparison.OrdinalIgnoreCase)) &&
+
+                (string.IsNullOrWhiteSpace(txbVoornaam.Text) ||
+                    lid.Voornaam.Contains(txbVoornaam.Text.Trim(), StringComparison.OrdinalIgnoreCase)) &&
+
+                (string.IsNullOrWhiteSpace(txbLidRRN.Text) ||
+                    lid.Rijksregisternummer.Contains(txbLidRRN.Text.Trim())) &&
+
+                (string.IsNullOrWhiteSpace(txbLidGSM.Text) ||
+                    lid.Telefoonnummer.Contains(txbLidGSM.Text.Trim())) &&
+
+                (string.IsNullOrWhiteSpace(txbLidEmail.Text) ||
+                    lid.Email.Contains(txbLidEmail.Text.Trim(), StringComparison.OrdinalIgnoreCase)) &&
+
+                (string.IsNullOrWhiteSpace(txbLidGemeente.Text) ||
+                    lid.Gemeente.Contains(txbLidGemeente.Text.Trim(), StringComparison.OrdinalIgnoreCase))
+            ).ToList();
+
+            if (!gefilterdeLeden.Any())
+            {
+                txtLedenLijst.Text = "Geen leden gevonden met deze zoekcriteria.";
+                return;
+            }
+
+            StringBuilder sb = new StringBuilder();
+            foreach (var lid in gefilterdeLeden)
+            {
+                sb.AppendLine(lid.ToString());
+                sb.AppendLine("------------------------");
+            }
+
+            txtLedenLijst.Text = sb.ToString();
+            btnResetZoekOpdracht.Visibility = Visibility.Visible;
+        }
+
+        private void btnResetZoekOpdracht_Click(object sender, RoutedEventArgs e)
+        {
+            VernieuwLedenOutput();
+            MaakLidFormulierLeeg();
+            btnResetZoekOpdracht.Visibility = Visibility.Collapsed;
+        }
     }
 }
