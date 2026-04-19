@@ -46,6 +46,7 @@ namespace WpfBubbelvrienden
             VernieuwLedenOutput();
             VernieuwTrainingenOutput();
             VernieuwBeschikbareDuikers();
+            btnResetZoekOpdracht.Visibility = Visibility.Collapsed;
         }
 
         private void ResetGrids()
