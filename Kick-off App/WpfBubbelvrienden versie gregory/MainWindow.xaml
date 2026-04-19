@@ -354,7 +354,7 @@
                          Height="300"
                          VerticalAlignment="Top"
                          SelectionMode="Single"
-                         SelectionChanged="lstTrainingen_SelectionChanged">
+                         SelectionChanged="lstTrainingen_SelectionChanged" FontSize="16">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -382,17 +382,31 @@
                        Width="300"
                        FontSize="16" />
 
+
                 <ListBox x:Name="lstDuikers"
                          ItemsSource="{Binding beschikbareDuikersLijst}"
                          SelectionMode="Multiple"
-                         DisplayMemberPath="Voornaam"
-                         Margin="540,120,865,615" />
+                         Margin="540,120,900,615" FontSize="16">
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Voornaam}" />
+                                <TextBlock Text=" - " />
+                                <TextBlock Text="{Binding Certificaat}" FontWeight="Bold"/>
+                                <TextBlock Text="⭐" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                </ListBox>
+
 
                 <Label x:Name="lblSessieOverzicht" Content="Geregistreerde sessies" HorizontalAlignment="Left" Margin="1050,70,0,0" VerticalAlignment="Top" FontSize="18"/>
                 <ListBox x:Name="lstSessies"
                          ItemsSource="{Binding sessiesLijst}"
                          DisplayMemberPath="Omschrijving"
-                         Margin="1050,120,390,420"/>
+                         Margin="1050,120,390,420" FontSize="16"/>
                 <TextBlock x:Name="txtSessieOutput"
                            HorizontalAlignment="Left"
                            Margin="55,450,0,0"
