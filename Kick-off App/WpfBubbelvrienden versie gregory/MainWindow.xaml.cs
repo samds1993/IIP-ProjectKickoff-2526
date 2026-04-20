@@ -10,14 +10,17 @@ namespace WpfBubbelvrienden
 {
     public partial class MainWindow : Window
     {
+        //aanmaken collecties
         public ObservableCollection<Training> trainingenLijst { get; set; } = new ObservableCollection<Training>();
         public ObservableCollection<Lid> ledenLijst { get; set; } = new ObservableCollection<Lid>();
         public ObservableCollection<Lid> beschikbareDuikersLijst { get; set; } = new ObservableCollection<Lid>();
         public ObservableCollection<TrainingsSessie> sessiesLijst { get; set; } = new ObservableCollection<TrainingsSessie>();
 
+        //counters voor ID's
         private int registratieCounter = 0;
         private int trainingenCounter = 0;
 
+        //Tags en Niveau's
         private string[] tags = { "Open Water", "Zwembad", "Nachtduik" };
         private string[] niveau = { "1", "2", "3", "4", "5" };
 
@@ -29,28 +32,36 @@ namespace WpfBubbelvrienden
             InitializeComponent();
             DataContext = this;
 
+            //comboboxes laden met inhoud
             cmbTagsTraining.ItemsSource = tags;
             cmbNiveauTraining.ItemsSource = niveau;
 
+            //lege optie instellen
             cbxCertificaat.SelectedIndex = 0;
             cmbTagsTraining.SelectedIndex = 0;
             cmbNiveauTraining.SelectedIndex = 0;
 
+            //grids opstarten
             grdStart.Visibility = Visibility.Visible;
             grdLeden.Visibility = Visibility.Collapsed;
             grdTrainingen.Visibility = Visibility.Collapsed;
             grdSessies.Visibility = Visibility.Collapsed;
 
+            //Startgegevens aanmaken
             MaakStartData();
             BerekenTellers();
             VernieuwLedenOutput();
             VernieuwTrainingenOutput();
             VernieuwBeschikbareDuikers();
             btnResetZoekOpdracht.Visibility = Visibility.Collapsed;
+            
+            //debugger verbergen
+            btnResetTest.Visibility = Visibility.Collapsed;
         }
 
         private void ResetGrids()
         {
+            //alles verbergen
             grdStart.Visibility = Visibility.Collapsed;
             grdLeden.Visibility = Visibility.Collapsed;
             grdTrainingen.Visibility = Visibility.Collapsed;
@@ -59,6 +70,7 @@ namespace WpfBubbelvrienden
 
         private void btnMenuStart_Click(object sender, RoutedEventArgs e)
         {
+            //alles verbergen + eigen zichtbaar maken
             ResetGrids();
             grdStart.Visibility = Visibility.Visible;
             BerekenTellers();
@@ -66,18 +78,21 @@ namespace WpfBubbelvrienden
 
         private void btnMenuLeden_Click(object sender, RoutedEventArgs e)
         {
+            //alles verbergen + eigen zichtbaar maken
             ResetGrids();
             grdLeden.Visibility = Visibility.Visible;
         }
 
         private void btnMenuTrainingen_Click(object sender, RoutedEventArgs e)
         {
+            //alles verbergen + eigen zichtbaar maken
             ResetGrids();
             grdTrainingen.Visibility = Visibility.Visible;
         }
 
         private void btnMenuSessies_Click(object sender, RoutedEventArgs e)
         {
+            //alles verbergen + eigen zichtbaar maken
             ResetGrids();
             grdSessies.Visibility = Visibility.Visible;
             VernieuwBeschikbareDuikers();
@@ -85,6 +100,7 @@ namespace WpfBubbelvrienden
 
         private int GeselecteerdCertificaat()
         {
+            //certificaat omzetten
             ComboBoxItem? item = cbxCertificaat.SelectedItem as ComboBoxItem;
             if (item == null || item.Content == null)
             {
@@ -96,8 +112,10 @@ namespace WpfBubbelvrienden
 
         private void btnRegistratie_Click(object sender, RoutedEventArgs e)
         {
+            //foutboodschap leeghalen
             txtLedenFout.Text = "";
 
+            //foutmelding ophalen
             string foutmelding = ValidatieHelper.ValideerLid(
                 txbNaam.Text.Trim(),
                 txbVoornaam.Text.Trim(),
@@ -109,12 +127,14 @@ namespace WpfBubbelvrienden
                 txbLidGSM.Text.Trim(),
                 txbLidEmail.Text.Trim());
 
+            //foutmelding weergeven
             if (foutmelding != "")
             {
                 txtLedenFout.Text = foutmelding;
                 return;
             }
 
+            //uniek RRN checken
             bool rrnBestaatAl = ledenLijst.Any(l => l.Rijksregisternummer == txbLidRRN.Text.Trim());
             if (rrnBestaatAl)
             {
@@ -122,8 +142,10 @@ namespace WpfBubbelvrienden
                 return;
             }
 
+            //ID verhogen
             registratieCounter++;
 
+            //lid aanmaken en toevoegen
             Lid lid = new Lid();
             lid.ID = registratieCounter.ToString("D8");
             lid.Naam = txbNaam.Text.Trim();
@@ -139,6 +161,7 @@ namespace WpfBubbelvrienden
 
             ledenLijst.Add(lid);
 
+            //vernieuwen van pagina
             MaakLidFormulierLeeg();
             VernieuwLedenOutput();
             VernieuwBeschikbareDuikers();
@@ -147,6 +170,7 @@ namespace WpfBubbelvrienden
 
         private void btnVerhoogCertificaat_Click(object sender, RoutedEventArgs e)
         {
+            //fouten opvangen
             if (geselecteerdLid == null)
             {
                 txtLedenFout.Text = "Zoek eerst een lid om het certificaat te verhogen.";
@@ -159,6 +183,7 @@ namespace WpfBubbelvrienden
                 return;
             }
 
+            //afhandelen resultaat
             geselecteerdLid.Certificaat++;
             cbxCertificaat.SelectedIndex = geselecteerdLid.Certificaat - 1;
             VernieuwLedenOutput();
@@ -168,12 +193,14 @@ namespace WpfBubbelvrienden
 
         private void btnVerwijderLid_Click(object sender, RoutedEventArgs e)
         {
+            //fouten opvangen
             if (geselecteerdLid == null)
             {
                 txtLedenFout.Text = "Zoek eerst een lid om te verwijderen.";
                 return;
             }
 
+            
             for (int i = sessiesLijst.Count - 1; i >= 0; i--)
             {
                 if (sessiesLijst[i].Duiker1ID == geselecteerdLid.ID || sessiesLijst[i].Duiker2ID == geselecteerdLid.ID)
@@ -181,7 +208,7 @@ namespace WpfBubbelvrienden
                     sessiesLijst.RemoveAt(i);
                 }
             }
-
+            //afhandeling
             ledenLijst.Remove(geselecteerdLid);
             geselecteerdLid = null;
             MaakLidFormulierLeeg();
@@ -192,6 +219,7 @@ namespace WpfBubbelvrienden
 
         private void btnResetTest_Click(object sender, RoutedEventArgs e)
         {
+            //reset voor debugging
             ledenLijst.Clear();
             sessiesLijst.Clear();
             registratieCounter = 0;
@@ -205,7 +233,8 @@ namespace WpfBubbelvrienden
         private void btnSearchID_Click(object sender, RoutedEventArgs e)
         {
             string id = txbMemberID.Text.Trim();
-
+            
+            //id opzoeken
             geselecteerdLid = ledenLijst.FirstOrDefault(l => l.ID == id);
 
             if (geselecteerdLid == null)
@@ -214,6 +243,7 @@ namespace WpfBubbelvrienden
                 return;
             }
 
+            //lid invullen
             txbNaam.Text = geselecteerdLid.Naam;
             txbVoornaam.Text = geselecteerdLid.Voornaam;
             txbLidRRN.Text = geselecteerdLid.Rijksregisternummer;
@@ -230,6 +260,7 @@ namespace WpfBubbelvrienden
 
         private void btnSaveNewID_Click(object sender, RoutedEventArgs e)
         {
+            //foutafhandeling
             if (geselecteerdLid == null)
             {
                 MessageBox.Show("Geen lid geselecteerd om te bewerken.");
@@ -263,6 +294,7 @@ namespace WpfBubbelvrienden
                 return;
             }
 
+            //gegevens bewerken
             geselecteerdLid.Naam = txbNaam.Text.Trim();
             geselecteerdLid.Voornaam = txbVoornaam.Text.Trim();
             geselecteerdLid.Rijksregisternummer = txbLidRRN.Text.Trim();
@@ -274,6 +306,7 @@ namespace WpfBubbelvrienden
             geselecteerdLid.Email = txbLidEmail.Text.Trim();
             geselecteerdLid.Certificaat = GeselecteerdCertificaat();
 
+            //afhandeling
             VernieuwLedenOutput();
             VernieuwBeschikbareDuikers();
             txtLedenFout.Text = "Lid succesvol bijgewerkt.";
@@ -283,9 +316,11 @@ namespace WpfBubbelvrienden
 
         private void btnImportCsv_Click(object sender, RoutedEventArgs e)
         {
+            //opstart venster
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = "CSV-bestanden (*.csv)|*.csv|Alle bestanden (*.*)|*.*";
 
+            //opvangen import
             if (dialog.ShowDialog() == true)
             {
                 try
@@ -322,10 +357,12 @@ namespace WpfBubbelvrienden
 
         private void btnExportCsv_Click(object sender, RoutedEventArgs e)
         {
+            //opstarten export en venster
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.Filter = "CSV-bestanden (*.csv)|*.csv|Alle bestanden (*.*)|*.*";
             dialog.FileName = "leden.csv";
 
+            //afhandeling export
             if (dialog.ShowDialog() == true)
             {
                 try
@@ -342,6 +379,7 @@ namespace WpfBubbelvrienden
 
         private void VernieuwLedenOutput()
         {
+            //lege lijst opvangen, niet meer van toepassing in huidige context
             if (ledenLijst.Count == 0)
             {
                 txtLedenLijst.Text = "Geen leden geregistreerd.";
@@ -377,6 +415,7 @@ namespace WpfBubbelvrienden
 
         private void btnOpslaanTraining_Click(object sender, RoutedEventArgs e)
         {
+            //checken of velden ingevuld zijn
             if (string.IsNullOrWhiteSpace(txbNaamTraining.Text) ||
                 string.IsNullOrWhiteSpace(txbTitelTraining.Text) ||
                 string.IsNullOrWhiteSpace(txbInhoudTraining.Text) ||
@@ -394,6 +433,7 @@ namespace WpfBubbelvrienden
             int beschikbarePlaatsen;
             int diepte;
 
+            //fouten opvangen
             if (!int.TryParse(txbBeschikbarePlaatsenTraining.Text.Trim(), out beschikbarePlaatsen) || beschikbarePlaatsen <= 0)
             {
                 txtTrainingStatus.Text = "Beschikbare plaatsen moet een positief getal zijn.";
@@ -409,6 +449,7 @@ namespace WpfBubbelvrienden
             TimeSpan startUur;
             TimeSpan eindUur;
 
+            //uren correctheid checken
             if (!TimeSpan.TryParse(txbStartUurTraining.Text.Trim(), out startUur))
             {
                 txtTrainingStatus.Text = "Startuur is ongeldig. Gebruik bv. 18:00.";
@@ -427,6 +468,7 @@ namespace WpfBubbelvrienden
                 return;
             }
 
+            //training aanmaken
             trainingenCounter++;
 
             Training training = new Training();
@@ -449,10 +491,12 @@ namespace WpfBubbelvrienden
 
             trainingenLijst.Add(training);
 
+            //lijsten updaten
             geselecteerdeTraining = training;
             lstIngeschrevenStudenten.ItemsSource = geselecteerdeTraining.IngeschrevenStudenten;
             lstGeaccepteerdeStudenten.ItemsSource = geselecteerdeTraining.GeaccepteerdeStudenten;
 
+            //afhandeling
             VernieuwTrainingenOutput();
             MaakTrainingFormulierLeeg();
             txtTrainingStatus.Text = "Training succesvol toegevoegd.";
@@ -461,6 +505,7 @@ namespace WpfBubbelvrienden
 
         private void btnAccepteerStudent_Click(object sender, RoutedEventArgs e)
         {
+            //fouten opvangen training
             if (geselecteerdeTraining == null)
             {
                 txtTrainingStatus.Text = "Selecteer eerst een training.";
@@ -479,6 +524,7 @@ namespace WpfBubbelvrienden
                 return;
             }
 
+            //fouten opvangen studenten
             string student = lstIngeschrevenStudenten.SelectedItem.ToString() ?? "";
             if (student == "")
             {
@@ -503,11 +549,13 @@ namespace WpfBubbelvrienden
                 txtTrainingStatus.Text = "Student geaccepteerd.";
             }
 
+            //afhandeling
             VernieuwTrainingenOutput();
         }
 
         private void VernieuwTrainingenOutput()
         {
+            //foutafhandeling
             if (trainingenLijst.Count == 0)
             {
                 txbTrainingsLijst.Text = "Nog geen trainingen toegevoegd.";
@@ -515,7 +563,7 @@ namespace WpfBubbelvrienden
             }
 
             StringBuilder sb = new StringBuilder();
-
+            //verwerken van trainingen
             foreach (Training training in trainingenLijst)
             {
                 sb.AppendLine(training.ToString());
@@ -586,6 +634,7 @@ namespace WpfBubbelvrienden
 
         private void btnSelectieDuikers_Click(object sender, RoutedEventArgs e)
         {
+            //fouten opvangen
             Training? gekozenTraining = lstTrainingen.SelectedItem as Training;
 
             if (gekozenTraining == null)
@@ -594,6 +643,7 @@ namespace WpfBubbelvrienden
                 return;
             }
 
+            //duikers kiezen
             var geselecteerde = lstDuikers.SelectedItems.Cast<Lid>().ToList();
 
             if (geselecteerde.Count != 2)
@@ -602,6 +652,7 @@ namespace WpfBubbelvrienden
                 return;
             }
 
+            //som certificaten bepalen
             Lid d1 = geselecteerde[0];
             Lid d2 = geselecteerde[1];
 
@@ -624,6 +675,7 @@ namespace WpfBubbelvrienden
                 return;
             }
 
+            //afhandeling keuze
             TrainingsSessie sessie = new TrainingsSessie();
             sessie.TrainingID = gekozenTraining.ID;
             sessie.TrainingNaam = gekozenTraining.Naam;
@@ -643,6 +695,7 @@ namespace WpfBubbelvrienden
 
         private void MaakStartData()
         {
+            //start van de ledenlijst die aangemaakt is
             ledenLijst.Add(new Lid
             {
                 ID = "00000001",
@@ -690,6 +743,7 @@ namespace WpfBubbelvrienden
 
             registratieCounter = ledenLijst.Count;
 
+            //trainingen aanmaken
             Training training1 = new Training();
             training1.ID = "0001";
             training1.Naam = "Basis Open Water";
@@ -730,13 +784,14 @@ namespace WpfBubbelvrienden
 
         private void BerekenTellers()
         {
+            //tellers op startpagina opstarten
             lblAantalLeden.Content = ledenLijst.Count + " actieve leden";
             lblAantalTrainingen.Content = trainingenLijst.Count + " trainingen";
         }
 
         private void btnZoekLeden_Click(object sender, RoutedEventArgs e)
         {
-
+            //leden zoeken in zelfde velden
             txtLedenFout.Text = "";
 
             var gefilterdeLeden = ledenLijst.Where(lid =>
@@ -778,6 +833,7 @@ namespace WpfBubbelvrienden
 
         private void btnResetZoekOpdracht_Click(object sender, RoutedEventArgs e)
         {
+            //velden leegmaken
             VernieuwLedenOutput();
             MaakLidFormulierLeeg();
             btnResetZoekOpdracht.Visibility = Visibility.Collapsed;
