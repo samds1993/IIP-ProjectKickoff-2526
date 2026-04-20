@@ -1,182 +1,240 @@
-﻿using System.Collections.ObjectModel;
-using System.Globalization;
+﻿using Microsoft.Win32;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WpfBubbelvrienden
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    /// 
     public partial class MainWindow : Window
     {
-        //NIEUW
-        public ObservableCollection<Training> trainingenLijst { get; set; }
-   = new ObservableCollection<Training>();
+        //aanmaken collecties
+        public ObservableCollection<Training> trainingenLijst { get; set; } = new ObservableCollection<Training>();
+        public ObservableCollection<Lid> ledenLijst { get; set; } = new ObservableCollection<Lid>();
+        public ObservableCollection<Lid> beschikbareDuikersLijst { get; set; } = new ObservableCollection<Lid>();
+        public ObservableCollection<TrainingsSessie> sessiesLijst { get; set; } = new ObservableCollection<TrainingsSessie>();
 
-        public ObservableCollection<Lid> ledenLijst { get; set; }
-    = new ObservableCollection<Lid>();
+        //counters voor ID's
+        private int registratieCounter = 0;
+        private int trainingenCounter = 0;
 
-        //Lijst Verplaats met de public class hierboven, rest mag blijven staan
-        int registratieCounter = 0;
+        //Tags en Niveau's
+        private string[] tags = { "Open Water", "Zwembad", "Nachtduik" };
+        private string[] niveau = { "1", "2", "3", "4", "5" };
 
-        //Lijst Verplaats met de public class hierboven, rest mag blijven staan
-        int trainingenCounter = 0;
-        string[] tags = {"ABC", "DEF"};
-        string[] niveau = { "A", "B", "C" };
-
-       
+        private Lid? geselecteerdLid;
+        private Training? geselecteerdeTraining;
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
 
-            //lijsten instellen
-            //@Sam moeten we dit ook gebruiken voor de niveau's van de leden? Of stellen we het beter via de XAML in?
+            //comboboxes laden met inhoud
             cmbTagsTraining.ItemsSource = tags;
             cmbNiveauTraining.ItemsSource = niveau;
 
+            //lege optie instellen
+            cbxCertificaat.SelectedIndex = 0;
+            cmbTagsTraining.SelectedIndex = 0;
+            cmbNiveauTraining.SelectedIndex = 0;
 
+            //grids opstarten
             grdStart.Visibility = Visibility.Visible;
-            grdLeden.Visibility = Visibility.Hidden;
-            grdTrainingen.Visibility = Visibility.Hidden;
-            grdSessies.Visibility = Visibility.Hidden;
+            grdLeden.Visibility = Visibility.Collapsed;
+            grdTrainingen.Visibility = Visibility.Collapsed;
+            grdSessies.Visibility = Visibility.Collapsed;
 
+            //Startgegevens aanmaken
+            MaakStartData();
+            BerekenTellers();
+            VernieuwLedenOutput();
+            VernieuwTrainingenOutput();
+            VernieuwBeschikbareDuikers();
+            btnResetZoekOpdracht.Visibility = Visibility.Collapsed;
+            
+            //debugger verbergen
+            btnResetTest.Visibility = Visibility.Collapsed;
         }
 
-        public required string LidEmail { get; set; }
-        public required string LidGSM { get; set; }
-
-        private Lid? geselecteerdLid;
-
-        private void resetgrids()
+        private void ResetGrids()
         {
-            grdStart.Visibility = Visibility.Hidden;
-            grdLeden.Visibility = Visibility.Hidden;
-            grdTrainingen.Visibility = Visibility.Hidden;
-            grdSessies.Visibility = Visibility.Hidden;
+            //alles verbergen
+            grdStart.Visibility = Visibility.Collapsed;
+            grdLeden.Visibility = Visibility.Collapsed;
+            grdTrainingen.Visibility = Visibility.Collapsed;
+            grdSessies.Visibility = Visibility.Collapsed;
         }
+
         private void btnMenuStart_Click(object sender, RoutedEventArgs e)
         {
-            resetgrids();
+            //alles verbergen + eigen zichtbaar maken
+            ResetGrids();
             grdStart.Visibility = Visibility.Visible;
+            BerekenTellers();
         }
 
         private void btnMenuLeden_Click(object sender, RoutedEventArgs e)
         {
-            resetgrids();
+            //alles verbergen + eigen zichtbaar maken
+            ResetGrids();
             grdLeden.Visibility = Visibility.Visible;
         }
 
         private void btnMenuTrainingen_Click(object sender, RoutedEventArgs e)
         {
-            resetgrids();
+            //alles verbergen + eigen zichtbaar maken
+            ResetGrids();
             grdTrainingen.Visibility = Visibility.Visible;
         }
 
         private void btnMenuSessies_Click(object sender, RoutedEventArgs e)
         {
-            resetgrids();
+            //alles verbergen + eigen zichtbaar maken
+            ResetGrids();
             grdSessies.Visibility = Visibility.Visible;
+            VernieuwBeschikbareDuikers();
         }
 
-        // leden registratie code
-        // opslaan input met gebruik van een class
-        public class Lid
+        private int GeselecteerdCertificaat()
         {
-            public required string ID { get; set; }
-            public required string Naam { get; set; }
-            public required string Voornaam { get; set; }
-            public required string Rijksregisternummer { get; set; }
-
-            //AANGEPAST
-            public required string Straat { get; set; }
-            public required string Huisnummer { get; set; }
-            public required string Postcode { get; set; }
-            public required string Gemeente { get; set; }
-            public required string Telefoonnummer { get; set; }
-            public required string Email { get; set; }
-            public required int Certificaat { get; set; }
-
-            //AANGEPAST
-            public override string ToString()
+            //certificaat omzetten
+            ComboBoxItem? item = cbxCertificaat.SelectedItem as ComboBoxItem;
+            if (item == null || item.Content == null)
             {
-                return $@"ID: {ID}
-Naam: {Naam}
-Voornaam: {Voornaam}
-Rijksregisternummer: {Rijksregisternummer}
-Straatnaam: {Straat}
-Huisnummer: {Huisnummer}
-Postcode: {Postcode}
-Gemeente: {Gemeente}
-Telefoonnummer: {Telefoonnummer}
-Email-adres: {Email}
-Certificaat: {Certificaat}";
+                return 1;
             }
+
+            return int.Parse(item.Content.ToString() ?? "1");
         }
 
-
-        // AANGEPAST
         private void btnRegistratie_Click(object sender, RoutedEventArgs e)
         {
+            //foutboodschap leeghalen
+            txtLedenFout.Text = "";
+
+            //foutmelding ophalen
+            string foutmelding = ValidatieHelper.ValideerLid(
+                txbNaam.Text.Trim(),
+                txbVoornaam.Text.Trim(),
+                txbLidRRN.Text.Trim(),
+                txbLidStreet.Text.Trim(),
+                txbLidStreetNr.Text.Trim(),
+                txbLidPostcode.Text.Trim(),
+                txbLidGemeente.Text.Trim(),
+                txbLidGSM.Text.Trim(),
+                txbLidEmail.Text.Trim());
+
+            //foutmelding weergeven
+            if (foutmelding != "")
+            {
+                txtLedenFout.Text = foutmelding;
+                return;
+            }
+
+            //uniek RRN checken
+            bool rrnBestaatAl = ledenLijst.Any(l => l.Rijksregisternummer == txbLidRRN.Text.Trim());
+            if (rrnBestaatAl)
+            {
+                txtLedenFout.Text = "Er bestaat al een lid met dit rijksregisternummer.";
+                return;
+            }
+
+            //ID verhogen
             registratieCounter++;
 
-            var lid = new Lid
-            {
-                ID = registratieCounter.ToString("D8"),
-                Naam = txbNaam.Text,
-                Voornaam = txbVoornaam.Text,
-                Rijksregisternummer = txbLidRRN.Text,
-                Straat = txbLidStreet.Text,
-                Huisnummer = txbLidStreetNr.Text,
-                Postcode = txbLidPostcode.Text,
-                Gemeente = txbLidGemeente.Text,               
-                Telefoonnummer = LidGSM,
-                Email = LidEmail,
-                //AANGEPAST
-                Certificaat = int.Parse(cbxCertificaat.Text)
-            };
-
+            //lid aanmaken en toevoegen
+            Lid lid = new Lid();
+            lid.ID = registratieCounter.ToString("D8");
+            lid.Naam = txbNaam.Text.Trim();
+            lid.Voornaam = txbVoornaam.Text.Trim();
+            lid.Rijksregisternummer = txbLidRRN.Text.Trim();
+            lid.Straat = txbLidStreet.Text.Trim();
+            lid.Huisnummer = txbLidStreetNr.Text.Trim();
+            lid.Postcode = txbLidPostcode.Text.Trim();
+            lid.Gemeente = txbLidGemeente.Text.Trim();
+            lid.Telefoonnummer = txbLidGSM.Text.Trim();
+            lid.Email = txbLidEmail.Text.Trim();
+            lid.Certificaat = GeselecteerdCertificaat();
 
             ledenLijst.Add(lid);
 
-            txtTest.Text = ledenLijst[^1].ToString();
+            //vernieuwen van pagina
+            MaakLidFormulierLeeg();
+            VernieuwLedenOutput();
+            VernieuwBeschikbareDuikers();
+            txtLedenFout.Text = "Lid succesvol toegevoegd.";
+        }
 
-            txbNaam.Clear();
-            txbVoornaam.Clear();
-            txbLidRRN.Clear();
-            //AANGEPAST
-            txbLidStreet.Clear();
-            txbLidStreetNr.Clear();
-            txbLidPostcode.Clear();
-            txbLidGemeente.Clear();
-            txbLidEmail.Clear();    
-            txbLidGSM.Clear();
-            cbxCertificaat.SelectedIndex = -1;
+        private void btnVerhoogCertificaat_Click(object sender, RoutedEventArgs e)
+        {
+            //fouten opvangen
+            if (geselecteerdLid == null)
+            {
+                txtLedenFout.Text = "Zoek eerst een lid om het certificaat te verhogen.";
+                return;
+            }
+
+            if (geselecteerdLid.Certificaat >= 5)
+            {
+                txtLedenFout.Text = "Dit lid heeft al het hoogste certificaat.";
+                return;
+            }
+
+            //afhandelen resultaat
+            geselecteerdLid.Certificaat++;
+            cbxCertificaat.SelectedIndex = geselecteerdLid.Certificaat - 1;
+            VernieuwLedenOutput();
+            VernieuwBeschikbareDuikers();
+            txtLedenFout.Text = "Certificaat verhoogd.";
+        }
+
+        private void btnVerwijderLid_Click(object sender, RoutedEventArgs e)
+        {
+            //fouten opvangen
+            if (geselecteerdLid == null)
+            {
+                txtLedenFout.Text = "Zoek eerst een lid om te verwijderen.";
+                return;
+            }
+
+            
+            for (int i = sessiesLijst.Count - 1; i >= 0; i--)
+            {
+                if (sessiesLijst[i].Duiker1ID == geselecteerdLid.ID || sessiesLijst[i].Duiker2ID == geselecteerdLid.ID)
+                {
+                    sessiesLijst.RemoveAt(i);
+                }
+            }
+            //afhandeling
+            ledenLijst.Remove(geselecteerdLid);
+            geselecteerdLid = null;
+            MaakLidFormulierLeeg();
+            VernieuwLedenOutput();
+            VernieuwBeschikbareDuikers();
+            txtLedenFout.Text = "Lid verwijderd.";
         }
 
         private void btnResetTest_Click(object sender, RoutedEventArgs e)
         {
+            //reset voor debugging
             ledenLijst.Clear();
+            sessiesLijst.Clear();
+            registratieCounter = 0;
+            geselecteerdLid = null;
+            txtLedenFout.Text = "";
+            txtLedenLijst.Text = "Geen leden geregistreerd.";
+            txtSessieOutput.Text = "";
+            VernieuwBeschikbareDuikers();
         }
 
-
-        // Bewerken van leden informatie
         private void btnSearchID_Click(object sender, RoutedEventArgs e)
         {
-            string id = txbMemberID.Text;
-
+            string id = txbMemberID.Text.Trim();
+            
+            //id opzoeken
             geselecteerdLid = ledenLijst.FirstOrDefault(l => l.ID == id);
 
             if (geselecteerdLid == null)
@@ -185,237 +243,600 @@ Certificaat: {Certificaat}";
                 return;
             }
 
+            //lid invullen
             txbNaam.Text = geselecteerdLid.Naam;
             txbVoornaam.Text = geselecteerdLid.Voornaam;
             txbLidRRN.Text = geselecteerdLid.Rijksregisternummer;
-            //AANGEPAST
             txbLidStreet.Text = geselecteerdLid.Straat;
             txbLidStreetNr.Text = geselecteerdLid.Huisnummer;
             txbLidPostcode.Text = geselecteerdLid.Postcode;
             txbLidGemeente.Text = geselecteerdLid.Gemeente;
             txbLidGSM.Text = geselecteerdLid.Telefoonnummer;
             txbLidEmail.Text = geselecteerdLid.Email;
-            cbxCertificaat.Text = geselecteerdLid.Certificaat.ToString();
+            cbxCertificaat.SelectedIndex = geselecteerdLid.Certificaat - 1;
 
             MessageBox.Show("Lid geladen. Je kan nu de gegevens aanpassen.");
-
         }
 
         private void btnSaveNewID_Click(object sender, RoutedEventArgs e)
         {
+            //foutafhandeling
             if (geselecteerdLid == null)
             {
                 MessageBox.Show("Geen lid geselecteerd om te bewerken.");
                 return;
             }
 
-            geselecteerdLid.Naam = txbNaam.Text;
-            geselecteerdLid.Voornaam = txbVoornaam.Text;
-            geselecteerdLid.Rijksregisternummer = txbLidRRN.Text;
-            //AANGEPAST
-            geselecteerdLid.Straat = txbLidStreet.Text;
-            geselecteerdLid.Huisnummer = txbLidStreetNr.Text;
-            geselecteerdLid.Postcode = txbLidPostcode.Text;
-            geselecteerdLid.Gemeente = txbLidGemeente.Text;
-            geselecteerdLid.Telefoonnummer = txbLidGSM.Text;
-            geselecteerdLid.Email = txbLidEmail.Text;
-            geselecteerdLid.Certificaat = int.Parse(cbxCertificaat.Text);
+            string foutmelding = ValidatieHelper.ValideerLid(
+                txbNaam.Text.Trim(),
+                txbVoornaam.Text.Trim(),
+                txbLidRRN.Text.Trim(),
+                txbLidStreet.Text.Trim(),
+                txbLidStreetNr.Text.Trim(),
+                txbLidPostcode.Text.Trim(),
+                txbLidGemeente.Text.Trim(),
+                txbLidGSM.Text.Trim(),
+                txbLidEmail.Text.Trim());
 
+            if (foutmelding != "")
+            {
+                txtLedenFout.Text = foutmelding;
+                return;
+            }
+
+            bool rrnBestaatAl = ledenLijst.Any(l =>
+                l.ID != geselecteerdLid.ID &&
+                l.Rijksregisternummer == txbLidRRN.Text.Trim());
+
+            if (rrnBestaatAl)
+            {
+                txtLedenFout.Text = "Dit rijksregisternummer bestaat al.";
+                return;
+            }
+
+            //gegevens bewerken
+            geselecteerdLid.Naam = txbNaam.Text.Trim();
+            geselecteerdLid.Voornaam = txbVoornaam.Text.Trim();
+            geselecteerdLid.Rijksregisternummer = txbLidRRN.Text.Trim();
+            geselecteerdLid.Straat = txbLidStreet.Text.Trim();
+            geselecteerdLid.Huisnummer = txbLidStreetNr.Text.Trim();
+            geselecteerdLid.Postcode = txbLidPostcode.Text.Trim();
+            geselecteerdLid.Gemeente = txbLidGemeente.Text.Trim();
+            geselecteerdLid.Telefoonnummer = txbLidGSM.Text.Trim();
+            geselecteerdLid.Email = txbLidEmail.Text.Trim();
+            geselecteerdLid.Certificaat = GeselecteerdCertificaat();
+
+            //afhandeling
+            VernieuwLedenOutput();
+            VernieuwBeschikbareDuikers();
+            txtLedenFout.Text = "Lid succesvol bijgewerkt.";
             MessageBox.Show("Lid succesvol bijgewerkt.");
+            MaakLidFormulierLeeg();
+        }
 
+        private void btnImportCsv_Click(object sender, RoutedEventArgs e)
+        {
+            //opstart venster
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "CSV-bestanden (*.csv)|*.csv|Alle bestanden (*.*)|*.*";
+
+            //opvangen import
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    ledenLijst.Clear();
+
+                    var importLeden = CsvHelper.ImporteerLeden(dialog.FileName);
+                    foreach (var lid in importLeden)
+                    {
+                        ledenLijst.Add(lid);
+                    }
+
+                    if (ledenLijst.Count > 0)
+                    {
+                        registratieCounter = ledenLijst
+                            .Select(l => int.TryParse(l.ID, out int id) ? id : 0)
+                            .Max();
+                    }
+                    else
+                    {
+                        registratieCounter = 0;
+                    }
+
+                    VernieuwLedenOutput();
+                    VernieuwBeschikbareDuikers();
+                    txtLedenFout.Text = "CSV succesvol geïmporteerd.";
+                }
+                catch (Exception ex)
+                {
+                    txtLedenFout.Text = "Fout bij importeren: " + ex.Message;
+                }
+            }
+        }
+
+        private void btnExportCsv_Click(object sender, RoutedEventArgs e)
+        {
+            //opstarten export en venster
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "CSV-bestanden (*.csv)|*.csv|Alle bestanden (*.*)|*.*";
+            dialog.FileName = "leden.csv";
+
+            //afhandeling export
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    CsvHelper.ExporteerLeden(dialog.FileName, ledenLijst.ToList());
+                    txtLedenFout.Text = "CSV succesvol geëxporteerd.";
+                }
+                catch (Exception ex)
+                {
+                    txtLedenFout.Text = "Fout bij exporteren: " + ex.Message;
+                }
+            }
+        }
+
+        private void VernieuwLedenOutput()
+        {
+            //lege lijst opvangen, niet meer van toepassing in huidige context
+            if (ledenLijst.Count == 0)
+            {
+                txtLedenLijst.Text = "Geen leden geregistreerd.";
+                return;
+            }
+
+            StringBuilder sb = new StringBuilder();
+
+            foreach (Lid lid in ledenLijst)
+            {
+                sb.AppendLine(lid.ToString());
+                sb.AppendLine("------------------------");
+            }
+
+            txtLedenLijst.Text = sb.ToString();
+        }
+
+        private void MaakLidFormulierLeeg()
+        {
+            txbNaam.Clear();
+            txbVoornaam.Clear();
+            txbLidRRN.Clear();
+            txbLidStreet.Clear();
+            txbLidStreetNr.Clear();
+            txbLidPostcode.Clear();
+            txbLidGemeente.Clear();
+            txbLidEmail.Clear();
+            txbLidGSM.Clear();
+            txbMemberID.Clear();
+            cbxCertificaat.SelectedIndex = 0;
+            geselecteerdLid = null;
         }
 
         private void btnOpslaanTraining_Click(object sender, RoutedEventArgs e)
         {
-            trainingenCounter++;
-
-            Training training = new Training
+            //checken of velden ingevuld zijn
+            if (string.IsNullOrWhiteSpace(txbNaamTraining.Text) ||
+                string.IsNullOrWhiteSpace(txbTitelTraining.Text) ||
+                string.IsNullOrWhiteSpace(txbInhoudTraining.Text) ||
+                string.IsNullOrWhiteSpace(txbPlaatsTraining.Text) ||
+                string.IsNullOrWhiteSpace(txbBeschikbarePlaatsenTraining.Text) ||
+                string.IsNullOrWhiteSpace(txbDiepteTraining.Text) ||
+                string.IsNullOrWhiteSpace(txbStartUurTraining.Text) ||
+                string.IsNullOrWhiteSpace(txbEindUurTraining.Text) ||
+                dapDatumTraining.SelectedDate == null)
             {
-                ID = trainingenCounter.ToString("D4"),
-                Naam = txbNaamTraining.Text,
-                Titel = txbTitelTraining.Text,
-                Tags = cmbTagsTraining.SelectedItem?.ToString() ?? "",
-                Inhoud = txbInhoudTraining.Text,
-                Plaats = txbPlaatsTraining.Text,
-                Niveau = cmbNiveauTraining.SelectedItem?.ToString() ?? "",
-                Datum = (dapDatumTraining.SelectedDate ?? DateTime.Now).ToString("dd/MM/yyyy"),
-                BeschikbarePlaatsen = txbBeschikbarePlaatsenTraining.Text,
-                Diepte = txbDiepteTraining.Text
-            };
-
-            trainingenLijst.Add(training);
-            txbTestOutputTraining.Text = training.ToString();
-        }
-
-        //NIEUW
-        // Registratie van trainingsessies
-        private void btnSelectieDuikers_Click(object sender, RoutedEventArgs e)
-        {
-            var geselecteerde = lstDuikers.SelectedItems
-        .Cast<Lid>()
-        .ToList();
-
-            if (geselecteerde.Count != 2)
-            {
-                MessageBox.Show("Selecteer precies 2 duikers.");
+                txtTrainingStatus.Text = "Vul alle velden van de training in.";
                 return;
             }
 
-            var d1 = geselecteerde[0];
-            var d2 = geselecteerde[1];
+            int beschikbarePlaatsen;
+            int diepte;
 
-            int som = d1.Certificaat + d2.Certificaat;
-
-            if (som == 5)
+            //fouten opvangen
+            if (!int.TryParse(txbBeschikbarePlaatsenTraining.Text.Trim(), out beschikbarePlaatsen) || beschikbarePlaatsen <= 0)
             {
-                MessageBox.Show($"{d1.Voornaam} en {d2.Voornaam} vormen samen 5 sterren ({d1.Certificaat} + {d2.Certificaat}).");
+                txtTrainingStatus.Text = "Beschikbare plaatsen moet een positief getal zijn.";
+                return;
+            }
+
+            if (!int.TryParse(txbDiepteTraining.Text.Trim(), out diepte) || diepte <= 0)
+            {
+                txtTrainingStatus.Text = "Diepte moet een positief getal zijn.";
+                return;
+            }
+
+            TimeSpan startUur;
+            TimeSpan eindUur;
+
+            //uren correctheid checken
+            if (!TimeSpan.TryParse(txbStartUurTraining.Text.Trim(), out startUur))
+            {
+                txtTrainingStatus.Text = "Startuur is ongeldig. Gebruik bv. 18:00.";
+                return;
+            }
+
+            if (!TimeSpan.TryParse(txbEindUurTraining.Text.Trim(), out eindUur))
+            {
+                txtTrainingStatus.Text = "Einduur is ongeldig. Gebruik bv. 20:00.";
+                return;
+            }
+
+            if (eindUur <= startUur)
+            {
+                txtTrainingStatus.Text = "Einduur moet later zijn dan startuur.";
+                return;
+            }
+
+            //training aanmaken
+            trainingenCounter++;
+
+            Training training = new Training();
+            training.ID = trainingenCounter.ToString("D4");
+            training.Naam = txbNaamTraining.Text.Trim();
+            training.Titel = txbTitelTraining.Text.Trim();
+            training.Tags = cmbTagsTraining.SelectedItem != null ? cmbTagsTraining.SelectedItem.ToString() ?? "" : "";
+            training.Inhoud = txbInhoudTraining.Text.Trim();
+            training.Plaats = txbPlaatsTraining.Text.Trim();
+            training.Niveau = cmbNiveauTraining.SelectedItem != null ? cmbNiveauTraining.SelectedItem.ToString() ?? "" : "";
+            training.Datum = dapDatumTraining.SelectedDate.Value;
+            training.BeschikbarePlaatsen = beschikbarePlaatsen;
+            training.Diepte = diepte;
+            training.StartUur = startUur;
+            training.EindUur = eindUur;
+
+            training.IngeschrevenStudenten.Add("Student A");
+            training.IngeschrevenStudenten.Add("Student B");
+            training.IngeschrevenStudenten.Add("Student C");
+
+            trainingenLijst.Add(training);
+
+            //lijsten updaten
+            geselecteerdeTraining = training;
+            lstIngeschrevenStudenten.ItemsSource = geselecteerdeTraining.IngeschrevenStudenten;
+            lstGeaccepteerdeStudenten.ItemsSource = geselecteerdeTraining.GeaccepteerdeStudenten;
+
+            //afhandeling
+            VernieuwTrainingenOutput();
+            MaakTrainingFormulierLeeg();
+            txtTrainingStatus.Text = "Training succesvol toegevoegd.";
+            BerekenTellers();
+        }
+
+        private void btnAccepteerStudent_Click(object sender, RoutedEventArgs e)
+        {
+            //fouten opvangen training
+            if (geselecteerdeTraining == null)
+            {
+                txtTrainingStatus.Text = "Selecteer eerst een training.";
+                return;
+            }
+
+            if (lstIngeschrevenStudenten.SelectedItem == null)
+            {
+                txtTrainingStatus.Text = "Selecteer eerst een ingeschreven student.";
+                return;
+            }
+
+            if (geselecteerdeTraining.IsVol)
+            {
+                txtTrainingStatus.Text = "Deze training is al volzet.";
+                return;
+            }
+
+            //fouten opvangen studenten
+            string student = lstIngeschrevenStudenten.SelectedItem.ToString() ?? "";
+            if (student == "")
+            {
+                return;
+            }
+
+            geselecteerdeTraining.IngeschrevenStudenten.Remove(student);
+            geselecteerdeTraining.GeaccepteerdeStudenten.Add(student);
+
+            lstIngeschrevenStudenten.ItemsSource = null;
+            lstIngeschrevenStudenten.ItemsSource = geselecteerdeTraining.IngeschrevenStudenten;
+
+            lstGeaccepteerdeStudenten.ItemsSource = null;
+            lstGeaccepteerdeStudenten.ItemsSource = geselecteerdeTraining.GeaccepteerdeStudenten;
+
+            if (geselecteerdeTraining.IsVol)
+            {
+                txtTrainingStatus.Text = "Deze training is nu volzet.";
             }
             else
             {
-                MessageBox.Show("De geselecteerde duikers vormen samen geen 5 sterren.");
+                txtTrainingStatus.Text = "Student geaccepteerd.";
             }
 
+            //afhandeling
+            VernieuwTrainingenOutput();
         }
-    }
 
-
-    // Validatie input bij email
-
-    public class EmailValidationRule : ValidationRule
-    {
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        private void VernieuwTrainingenOutput()
         {
-            string? email = value as string;
-
-            if (string.IsNullOrWhiteSpace(email))
-                return new ValidationResult(false, "E-mail mag niet leeg zijn.");
-
-            string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
-
-            if (Regex.IsMatch(email, pattern))
-                return ValidationResult.ValidResult;
-            
-            return new ValidationResult(false, "Ongeldig e-mailadres.");
-        }
-    }
-
-    // Validatie input bij GSM nummer
-    public class GSMValidationRule : ValidationRule
-    {
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
-        {
-            string? gsm = value as string;
-
-            if (string.IsNullOrWhiteSpace(gsm))
-                return new ValidationResult(false, "GSM-nummer mag niet leeg zijn.");
-
-            string pattern = @"^(?:\+324\d{8}|04\d{8})$";
-
-            if (Regex.IsMatch(gsm, pattern))
-                return ValidationResult.ValidResult;
-
-            return new ValidationResult(false, "Ongeldig GSM-nummer.");
-        }
-    }
-
-    // Validatie input bij rijksregisternummer
-
-    public class RijksregisterValidationRule : ValidationRule
-    {
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
-        {
-            string? rrn = value as string;
-
-            if (string.IsNullOrWhiteSpace(rrn))
-                return new ValidationResult(false, "Rijksregisternummer mag niet leeg zijn.");
-
-            if (!Regex.IsMatch(rrn, @"^\d{11}$"))
-                return new ValidationResult(false, "Rijksregisternummer moet uit 11 cijfers bestaan.");
-
-            string baseNumber = rrn.Substring(0, 9);
-            string controlDigits = rrn.Substring(9, 2);
-
-            if (!long.TryParse(baseNumber, out long baseNum) ||
-                !int.TryParse(controlDigits, out int control))
+            //foutafhandeling
+            if (trainingenLijst.Count == 0)
             {
-                return new ValidationResult(false, "Ongeldig rijksregisternummer.");
+                txbTrainingsLijst.Text = "Nog geen trainingen toegevoegd.";
+                return;
             }
 
-            int expectedControl = 97 - (int)(baseNum % 97);
+            StringBuilder sb = new StringBuilder();
+            //verwerken van trainingen
+            foreach (Training training in trainingenLijst)
+            {
+                sb.AppendLine(training.ToString());
+                sb.AppendLine("Geaccepteerd: " + training.GeaccepteerdeStudenten.Count + "/" + training.BeschikbarePlaatsen);
+                sb.AppendLine("Volzet: " + (training.IsVol ? "Ja" : "Nee"));
+                sb.AppendLine("------------------------");
+            }
 
-            if (expectedControl == control)
-                return ValidationResult.ValidResult;
-
-            expectedControl = 97 - (int)((2_000_000_000L + baseNum) % 97);
-
-            if (expectedControl == control)
-                return ValidationResult.ValidResult;
-
-            return new ValidationResult(false, "Ongeldig rijksregisternummer.");
+            txbTrainingsLijst.Text = sb.ToString();
         }
-    }
-    //NIEUW - Validatie input bij postcode
-    public class PostcodeValidationRule : ValidationRule
-    {
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+
+        private void MaakTrainingFormulierLeeg()
         {
-            string? postcode = value as string;
-
-            if (string.IsNullOrWhiteSpace(postcode))
-                return new ValidationResult(false, "Postcode mag niet leeg zijn.");
-
-            // Exact 4 cijfers
-            string pattern = @"^\d{4}$";
-
-            if (Regex.IsMatch(postcode, pattern))
-                return ValidationResult.ValidResult;
-
-            return new ValidationResult(false, "Postcode moet uit 4 cijfers bestaan.");
+            txbNaamTraining.Clear();
+            txbTitelTraining.Clear();
+            txbInhoudTraining.Clear();
+            txbPlaatsTraining.Clear();
+            txbBeschikbarePlaatsenTraining.Clear();
+            txbDiepteTraining.Clear();
+            txbStartUurTraining.Clear();
+            txbEindUurTraining.Clear();
+            dapDatumTraining.SelectedDate = null;
+            cmbTagsTraining.SelectedIndex = 0;
+            cmbNiveauTraining.SelectedIndex = 0;
         }
-    }
 
-
-    // registratie knop uitschakelen bij foute ingave
-
-    public class InverseBoolConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-            => !(bool)value;
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-            => throw new NotImplementedException();
-    }
-
-    // training registratie code
-    public class Training
-    {
-        public required string ID { get; set; }
-        public required string Naam { get; set; }
-        public required string Titel { get; set; }
-        public required string Tags { get; set; }
-        public required string Inhoud { get; set; }
-        public required string Plaats { get; set; }
-        public required string BeschikbarePlaatsen { get; set; }
-        public required string Niveau { get; set; }
-        public required string Diepte { get; set; }
-        public required string Datum { get; set; }
-
-        public override string ToString()
+        private void lstTrainingen_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            return $@"
-ID: {ID}
-Naam: {Naam}
-Titel: {Titel}
-Tags: {Tags}
-Inhoud: {Inhoud}
-Plaats: {Plaats}
-Beschikbare plaatsen: {BeschikbarePlaatsen}
-Niveau: {Niveau}
-Diepte: {Diepte}
-Datum: {Datum:dd/MM/yyyy}
-";
+            geselecteerdeTraining = lstTrainingen.SelectedItem as Training;
+            VernieuwBeschikbareDuikers();
+
+            if (geselecteerdeTraining != null)
+            {
+                lstIngeschrevenStudenten.ItemsSource = null;
+                lstIngeschrevenStudenten.ItemsSource = geselecteerdeTraining.IngeschrevenStudenten;
+
+                lstGeaccepteerdeStudenten.ItemsSource = null;
+                lstGeaccepteerdeStudenten.ItemsSource = geselecteerdeTraining.GeaccepteerdeStudenten;
+            }
         }
 
+        private void VernieuwBeschikbareDuikers()
+        {
+            beschikbareDuikersLijst.Clear();
+
+            if (geselecteerdeTraining == null)
+            {
+                foreach (var lid in ledenLijst)
+                {
+                    beschikbareDuikersLijst.Add(lid);
+                }
+                return;
+            }
+
+            var bezetteIds = sessiesLijst
+                .Where(s => s.TrainingID == geselecteerdeTraining.ID)
+                .SelectMany(s => new[] { s.Duiker1ID, s.Duiker2ID })
+                .ToList();
+
+            foreach (var lid in ledenLijst)
+            {
+                if (!bezetteIds.Contains(lid.ID))
+                {
+                    beschikbareDuikersLijst.Add(lid);
+                }
+            }
+        }
+
+        private void btnSelectieDuikers_Click(object sender, RoutedEventArgs e)
+        {
+            //fouten opvangen
+            Training? gekozenTraining = lstTrainingen.SelectedItem as Training;
+
+            if (gekozenTraining == null)
+            {
+                txtSessieOutput.Text = "Selecteer eerst een training.";
+                return;
+            }
+
+            //duikers kiezen
+            var geselecteerde = lstDuikers.SelectedItems.Cast<Lid>().ToList();
+
+            if (geselecteerde.Count != 2)
+            {
+                txtSessieOutput.Text = "Selecteer precies 2 duikers.";
+                return;
+            }
+
+            //som certificaten bepalen
+            Lid d1 = geselecteerde[0];
+            Lid d2 = geselecteerde[1];
+
+            int som = d1.Certificaat + d2.Certificaat;
+
+            bool geldig = false;
+
+            if (som >= 5)
+            {
+                geldig = true;
+            }
+            else if (d1.Certificaat == 2 && d2.Certificaat == 2 && gekozenTraining.Diepte <= 20)
+            {
+                geldig = true;
+            }
+
+            if (!geldig)
+            {
+                txtSessieOutput.Text = "De geselecteerde duikers vormen geen geldig team voor deze training.";
+                return;
+            }
+
+            //afhandeling keuze
+            TrainingsSessie sessie = new TrainingsSessie();
+            sessie.TrainingID = gekozenTraining.ID;
+            sessie.TrainingNaam = gekozenTraining.Naam;
+            sessie.Duiker1ID = d1.ID;
+            sessie.Duiker2ID = d2.ID;
+            sessie.Duiker1Naam = d1.Voornaam + " " + d1.Naam;
+            sessie.Duiker2Naam = d2.Voornaam + " " + d2.Naam;
+            sessie.Omschrijving = gekozenTraining.Naam + " - " + sessie.Duiker1Naam + " & " + sessie.Duiker2Naam;
+
+            sessiesLijst.Add(sessie);
+            VernieuwBeschikbareDuikers();
+
+            txtSessieOutput.Text =
+                d1.Voornaam + " en " + d2.Voornaam +
+                " vormen een geldig team voor training '" + gekozenTraining.Naam + "' en de sessie werd opgeslagen.";
+        }
+
+        private void MaakStartData()
+        {
+            //start van de ledenlijst die aangemaakt is
+            ledenLijst.Add(new Lid
+            {
+                ID = "00000001",
+                Naam = "Gaudeus",
+                Voornaam = "Gregory",
+                Rijksregisternummer = "92071435740",
+                Straat = "Kerkstraat",
+                Huisnummer = "10",
+                Postcode = "9000",
+                Gemeente = "Gent",
+                Telefoonnummer = "0412345678",
+                Email = "gregory.gaudeus@student.odisee.be",
+                Certificaat = 2
+            });
+
+            ledenLijst.Add(new Lid
+            {
+                ID = "00000002",
+                Naam = "De Smet",
+                Voornaam = "Sam",
+                Rijksregisternummer = "92030554321",
+                Straat = "Dorpstraat",
+                Huisnummer = "25",
+                Postcode = "9300",
+                Gemeente = "Aalst",
+                Telefoonnummer = "0423456789",
+                Email = "sam.desmet2@student.odisee.be",
+                Certificaat = 3
+            });
+
+            ledenLijst.Add(new Lid
+            {
+                ID = "00000003",
+                Naam = "Knops",
+                Voornaam = "Wout",
+                Rijksregisternummer = "88071298765",
+                Straat = "Stationsstraat",
+                Huisnummer = "3",
+                Postcode = "1770",
+                Gemeente = "Liedekerke",
+                Telefoonnummer = "0434567890",
+                Email = "wout.knops@student.odisee.be",
+                Certificaat = 1
+            });
+
+            registratieCounter = ledenLijst.Count;
+
+            //trainingen aanmaken
+            Training training1 = new Training();
+            training1.ID = "0001";
+            training1.Naam = "Basis Open Water";
+            training1.Titel = "Introductieduik";
+            training1.Tags = "Open Water";
+            training1.Inhoud = "Eerste kennismaking met duiken in open water";
+            training1.Plaats = "Zilvermeer";
+            training1.Niveau = "1";
+            training1.Datum = DateTime.Today.AddDays(7);
+            training1.BeschikbarePlaatsen = 2;
+            training1.Diepte = 5;
+            training1.StartUur = new TimeSpan(18, 0, 0);
+            training1.EindUur = new TimeSpan(20, 0, 0);
+            training1.IngeschrevenStudenten.Add("Student A");
+            training1.IngeschrevenStudenten.Add("Student B");
+            training1.IngeschrevenStudenten.Add("Student C");
+            trainingenLijst.Add(training1);
+
+            Training training2 = new Training();
+            training2.ID = "0002";
+            training2.Naam = "Nachtduik Specialisatie";
+            training2.Titel = "Duiken bij duisternis";
+            training2.Tags = "Nachtduik";
+            training2.Inhoud = "Geavanceerde training voor nachtduiken";
+            training2.Plaats = "Put van Ekeren";
+            training2.Niveau = "3";
+            training2.Datum = DateTime.Today.AddDays(14);
+            training2.BeschikbarePlaatsen = 6;
+            training2.Diepte = 25;
+            training2.StartUur = new TimeSpan(19, 0, 0);
+            training2.EindUur = new TimeSpan(22, 0, 0);
+            training2.IngeschrevenStudenten.Add("Student X");
+            training2.IngeschrevenStudenten.Add("Student Y");
+            trainingenLijst.Add(training2);
+
+            trainingenCounter = trainingenLijst.Count;
+        }
+
+        private void BerekenTellers()
+        {
+            //tellers op startpagina opstarten
+            lblAantalLeden.Content = ledenLijst.Count + " actieve leden";
+            lblAantalTrainingen.Content = trainingenLijst.Count + " trainingen";
+        }
+
+        private void btnZoekLeden_Click(object sender, RoutedEventArgs e)
+        {
+            //leden zoeken in zelfde velden
+            txtLedenFout.Text = "";
+
+            var gefilterdeLeden = ledenLijst.Where(lid =>
+                (string.IsNullOrWhiteSpace(txbNaam.Text) ||
+                    lid.Naam.Contains(txbNaam.Text.Trim(), StringComparison.OrdinalIgnoreCase)) &&
+
+                (string.IsNullOrWhiteSpace(txbVoornaam.Text) ||
+                    lid.Voornaam.Contains(txbVoornaam.Text.Trim(), StringComparison.OrdinalIgnoreCase)) &&
+
+                (string.IsNullOrWhiteSpace(txbLidRRN.Text) ||
+                    lid.Rijksregisternummer.Contains(txbLidRRN.Text.Trim())) &&
+
+                (string.IsNullOrWhiteSpace(txbLidGSM.Text) ||
+                    lid.Telefoonnummer.Contains(txbLidGSM.Text.Trim())) &&
+
+                (string.IsNullOrWhiteSpace(txbLidEmail.Text) ||
+                    lid.Email.Contains(txbLidEmail.Text.Trim(), StringComparison.OrdinalIgnoreCase)) &&
+
+                (string.IsNullOrWhiteSpace(txbLidGemeente.Text) ||
+                    lid.Gemeente.Contains(txbLidGemeente.Text.Trim(), StringComparison.OrdinalIgnoreCase))
+            ).ToList();
+
+            if (!gefilterdeLeden.Any())
+            {
+                txtLedenLijst.Text = "Geen leden gevonden met deze zoekcriteria.";
+                return;
+            }
+
+            StringBuilder sb = new StringBuilder();
+            foreach (var lid in gefilterdeLeden)
+            {
+                sb.AppendLine(lid.ToString());
+                sb.AppendLine("------------------------");
+            }
+
+            txtLedenLijst.Text = sb.ToString();
+            btnResetZoekOpdracht.Visibility = Visibility.Visible;
+        }
+
+        private void btnResetZoekOpdracht_Click(object sender, RoutedEventArgs e)
+        {
+            //velden leegmaken
+            VernieuwLedenOutput();
+            MaakLidFormulierLeeg();
+            btnResetZoekOpdracht.Visibility = Visibility.Collapsed;
+        }
     }
 }
-
